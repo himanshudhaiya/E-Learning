@@ -1,0 +1,226 @@
+<footer class="main-footer">
+  <div class="footer-left">
+    <a href=".net"></a>
+  </div>
+  <div class="footer-right"></div>
+</footer>
+
+<script src="/assets/bundles/cleave-js/dist/cleave.min.js"></script>
+<script src="/assets/bundles/cleave-js/dist/addons/cleave-phone.us.js"></script>
+<script src="/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+<script src="/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/assets/bundles/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<script src="/assets/bundles/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="/assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+<script src="/assets/bundles/select2/dist/js/select2.full.min.js"></script>
+<script src="/assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
+<script src="/assets/js/page/forms-advanced-forms.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/getFormData.js"></script>
+<script src="/assets/js/getParam.js"></script>
+<script src="/assets/js/app.min.js"></script>
+<script src="/assets/js/page/index.js"></script>
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/grafscripts.js"></script>
+<script src="/assets/bundles/apexcharts/apexcharts.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"
+></script>
+
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+
+<!-- <script
+  type="text/javascript"
+  src="https://code.highcharts.com/highcharts.js"
+></script>
+
+<script
+  type="text/javascript"
+  src="https://code.highcharts.com/modules/exporting.js"
+></script> -->
+<!-- <script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"
+></script> -->
+<script src="/assets/bundles/summernote/summernote-bs4.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
+  integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<!-- multipart select -->
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
+<script src="http://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+
+<!-- date picker link -->
+<script src="/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script>
+  function renderToast(objectAssign = {}) {
+    $.toast({
+      text: objectAssign.message ? objectAssign.message : "message",
+      icon: objectAssign.icon ? objectAssign.icon : "info",
+      loader: true, // Change it to false to disable loader
+      loaderBg: "#9EC600", // To change the background
+    });
+  }
+</script>
+<script>
+  $("textarea#summernote").summernote({
+    placeholder: "Write here...",
+    tabsize: 2,
+    height: 100,
+    toolbar: [
+      ["style", ["style"]],
+      ["font", ["bold", "italic", "underline", "clear"]],
+      // ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+      //['fontname', ['fontname']],
+      // ['fontsize', ['fontsize']],
+      ["color", ["color"]],
+      ["para", ["ul", "ol", "paragraph"]],
+      ["height", ["height"]],
+      ["table", ["table"]],
+      ["insert", ["link", "picture", "hr"]],
+      //['view', ['fullscreen', 'codeview']],
+      ["help", ["help"]],
+    ],
+  });
+</script>
+
+<script>
+  jQuery(function ($) {
+    $(".sidebar-dropdown > a").click(function () {
+      $(".sidebar-submenu").slideUp(200);
+      if ($(this).parent().hasClass("active")) {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this).parent().removeClass("active");
+      } else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this).next(".sidebar-submenu").slideDown(200);
+        $(this).parent().addClass("active");
+      }
+    });
+  });
+</script>
+<!-- <script>
+  var chart = new Highcharts.Chart({
+    chart: {
+      renderTo: "container",
+
+      marginBottom: 80,
+    },
+    xAxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      labels: {
+        rotation: 90,
+      },
+    },
+
+    series: [
+      {
+        data: [
+          29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1,
+          95.6, 54.4,
+        ],
+      },
+    ],
+  });
+
+  // subject chart
+  var chart = new Highcharts.Chart({
+    chart: {
+      renderTo: "subject-chart",
+
+      marginBottom: 80,
+    },
+    xAxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      labels: {
+        rotation: 90,
+      },
+    },
+
+    series: [
+      {
+        data: [
+          29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1,
+          95.6, 54.4,
+        ],
+      },
+    ],
+  });
+
+  // payment chart
+  var chart = new Highcharts.Chart({
+    chart: {
+      renderTo: "payment-chart",
+
+      marginBottom: 80,
+    },
+    xAxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      labels: {
+        rotation: 90,
+      },
+    },
+
+    series: [
+      {
+        data: [
+          29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1,
+          95.6, 54.4,
+        ],
+      },
+    ],
+  });
+</script> -->

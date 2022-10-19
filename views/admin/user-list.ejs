@@ -1,0 +1,540 @@
+<style>
+  .btn-hovers {
+    background-color: #5e8de6 !important;
+    color: #fff !important;
+  }
+</style>
+
+<%- include('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <!--  List Faq Start-->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="background-color: #6777ef">
+              <div class="col-12">
+                <h4 class="float-left mt-2 text-white">Users List</h4>
+                <div class="head-right-btn">
+                  <a href="/admin/user/student/add"
+                    ><button class="btn btn-info float-right m-2">
+                      Add Student (User)
+                    </button></a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive p-2">
+                    <table id="example" class="table table-bordered table-md">
+                      <thead>
+                        <tr class="text-center">
+                          <th>Image</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Mobile</th>
+                          <th>Address</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <% if(!user[0]) { %>
+                        <tr>
+                          <td colspan="100%">No Data</td>
+                        </tr>
+                        <% } else {%> <% user.forEach(function(user){ %>
+                        <tr>
+                          <td>
+                            <img
+                              alt="file"
+                              src="/uploads/users/<%= user.image %>"
+                              height="50px"
+                              width="50px"
+                            />
+                          </td>
+
+                          <td><%= user.name %></td>
+                          <td><%= user.email %></td>
+                          <td><%= user.mobile_number %></td>
+                          <td><%= user.address %></td>
+                          <td>
+                            <button
+                              class="btn <%- user.approved ? 'bg-success' : 'bg-danger' %> text-white"
+                              data-toggle="modal"
+                              data-model="<%= JSON.stringify(user) %>"
+                              id="accept_btn"
+                              style="cursor: pointer"
+                            >
+                              <%- user.approved ? 'Approved' : 'Unapproved' %>
+                            </button>
+                          </td>
+                          <td>
+                            <a
+                              href="/admin/user/view/<%= user._id %>"
+                              data-toggle="tooltip"
+                              title=""
+                              data-bs-original-title="View Details"
+                              ><i
+                                class="btn btn-primary btn-md fa-solid fa-eye"
+                              ></i
+                            ></a>
+                            <i
+                              class="btn btn-info btn-md fa-solid fa-edit"
+                              id="edit_btn"
+                              data-toggle="modal"
+                              data-model="<%= JSON.stringify(user) %>"
+                            ></i>
+                            <i
+                              class="btn btn-danger btn-md fas fa-trash-alt"
+                              onclick="deleteUser('<%= user._id %>');"
+                            ></i>
+                          </td>
+                        </tr>
+
+                        <% }); %> <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- List Faq Ends -->
+    </div>
+  </section>
+  <!-- Approved -->
+  <div class="modal fade" id="action">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="actionForm" class="mx-5">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Action</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="mb-3">
+              <input
+                name="approved"
+                type="checkbox"
+                id="approved"
+                data-width="100%"
+                data-toggle="toggle"
+                data-on="Approved"
+                data-off="Unapproved"
+                data-onstyle="success"
+                data-offstyle="danger"
+              />
+            </div>
+            <input name="id" type="hidden" id="actionid" name="actionid" />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              close
+            </button>
+            <button type="submit" class="btn btn-primary">save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Student</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="card-body">
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="edit_name"
+                      id="edit_name"
+                      placeholder="Enter Name"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label>Email</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="edit_email"
+                      id="edit_email"
+                      placeholder="Enter Email"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Mobile Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="edit_mobile_number"
+                      name="edit_mobile_number"
+                      placeholder="Enter Mobile Number"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <div id="output"></div>
+                    <h6>Course</h6>
+                    <div class="form-group add-university-form">
+                      <select
+                        data-placeholder="Choose course..."
+                        name="edit_course"
+                        id="edit_course"
+                        multiple
+                        class="chosen-select"
+                      >
+                        <% course.forEach(function(course){%>
+                        <option value="<%= course._id %>">
+                          <%= course.course_name %>
+                        </option>
+                        <% }); %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>College</label>
+                    <select
+                      class="form-control show-tick ms select2"
+                      data-placeholder="Select"
+                      name="edit_college_name"
+                      id="edit_college_name"
+                    >
+                      <option value="" disabled selected>Select College</option>
+                      <% college_name.forEach(function(college_name){%>
+                      <option value="<%= college_name._id %>">
+                        <%= college_name.name %>
+                      </option>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <div class="form-group w-50">
+                    <label>Year</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="edit_year"
+                      id="edit_year"
+                      placeholder="Enter year"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50 col-6">
+                    <label>Gender</label>
+                    <select
+                      name="edit_gender"
+                      id="edit_gender"
+                      class="form-control show-tick ms select2"
+                      data-placeholder="Select"
+                    >
+                      <option value="">Select</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                  <div class="form-group w-50 col-6">
+                    <label>Date Of Birth</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="edit_dob"
+                      id="edit_dob"
+                      placeholder="Enter DOB"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="image" class="form-label">Address</label>
+                      <div class="custom-file">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="edit_address"
+                          name="edit_address"
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>State</label>
+                      <select
+                        id="edit_state"
+                        name="edit_state"
+                        class="form-control"
+                      >
+                        <option value="">Select State</option>
+                        <option value="Andaman and Nicobar Islands">
+                          Andaman and Nicobar Islands
+                        </option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">
+                          Arunachal Pradesh
+                        </option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadra and Nagar Haveli">
+                          Dadra and Nagar Haveli
+                        </option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">
+                          Himachal Pradesh
+                        </option>
+                        <option value="Jammu and Kashmir">
+                          Jammu and Kashmir
+                        </option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Orissa">Orissa</option>
+                        <option value="Pondicherry">Pondicherry</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttaranchal">Uttaranchal</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="West Bengal">West Bengal</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Pincode</label>
+                      <input
+                        type="text"
+                        name="edit_pincode"
+                        id="edit_pincode"
+                        class="form-control"
+                        placeholder="Enter Pincode"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<%- include ('partials/footer.ejs') %>
+
+<!-- multipart select -->
+<script>
+  document.getElementById("output").innerHTML = location.search;
+  $(".chosen-select").chosen();
+</script>
+<script>
+  $(document).ready(function () {
+    $("#example").DataTable();
+  });
+
+  $(document).on("click", "#accept_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#action").modal("show");
+    var data = finalData;
+    // console.log(data)
+
+    $("#actionid").val(data._id);
+
+    approved
+      ? $("#approved").bootstrapToggle("on")
+      : $("#approved").bootstrapToggle("off");
+  });
+</script>
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+
+  var actionForm = $("#actionForm");
+  actionForm.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = getFormData(actionForm);
+    formData.approved = $("#approved").is(":checked");
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/user/approved",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_name").val(data.name);
+    $("#edit_email").val(data.email);
+    $("#edit_mobile_number").val(data.mobile_number);
+    $("#edit_course").val(data.course._id);
+    $("#edit_college_name").val(data.college_name._id);
+    $("#edit_year").val(data.year);
+    $("#edit_gender").val(data.gender);
+    $("#edit_dob").val(data.dob);
+    $("#edit_address").val(data.address);
+    $("#edit_state").val(data.state);
+    $("#edit_pincode").val(data.pincode);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/user/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deleteUser(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/user/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

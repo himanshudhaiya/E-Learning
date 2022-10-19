@@ -1,0 +1,371 @@
+<%- include ('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card">
+            <div class="card-headers row">
+              <div class="col-md-8">
+                <div class="university-card-header">
+                  <h4>Coupons</h4>
+                </div>
+              </div>
+            </div>
+
+            <form id="addform">
+              <div class="card-body">
+                <div class="row">
+                  <h6>New Promo Code</h6>
+                  <br />
+
+                  <div class="form-group">
+                    <div class="form-group mt-2">
+                      <label>Image:</label>
+                      <input type="file" class="form-control" name="image" />
+                    </div>
+                    <div class="form-group mt-2">
+                      <label>Code:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="code"
+                        placeholder="Enter Code"
+                      />
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <label>No. of Codes:</label>
+                      <input
+                        type="number"
+                        name="no_of_codes"
+                        class="form-control"
+                        placeholder="Enter No. of Codes"
+                      />
+                    </div>
+
+                    <div class="form-group add-university-form">
+                      <label>Description</label>
+                      <textarea
+                        class="form-control"
+                        rows="3"
+                        name="description"
+                        placeholder="Enter Description"
+                      ></textarea>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <label>Course</label>
+                      <select
+                        class="form-control show-tick ms select2"
+                        data-placeholder="Select"
+                        name="course_id"
+                      >
+                        <option value="" disabled selected>
+                          Select Course
+                        </option>
+                        <% course_id.forEach(function(course_id){%>
+                        <option value="<%= course_id._id %>">
+                          <%= course_id.course_name %>
+                        </option>
+                        <% }); %>
+                      </select>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <label>Discount Percent[*]</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="discount_percent"
+                        placeholder="Discount Percent"
+                      />
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <label>Maximum Discount Value [*]</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="max_discount_value"
+                        placeholder="Maximum Discount Value"
+                      />
+                    </div>
+                    <div class="form-group mt-2">
+                      <label>Minimum Discount Value [*]</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="min_discount_value"
+                        placeholder="Minimum Discount Value"
+                      />
+                    </div>
+                    <div class="form-group mt-2">
+                      <label>Minimum Cart Value [*]</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="min_cart_value"
+                        placeholder="Minimum Cart Value "
+                      />
+                    </div>
+                    <div class="form-group mt-2">
+                      <label>Valid Till [*]</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="valid_till"
+                        placeholder="Minimum Cart Value "
+                      />
+                    </div>
+                    <div class="form-group mt-2">
+                      <label>Max Use Count</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="max_use_count"
+                        placeholder="Max Use Count "
+                      />
+                    </div>
+
+                    <div class="row">
+                      <div class="d-flex justify-content-end">
+                        <div class="delete-btn ml-2">
+                          <button type="submit" class="btn btn-primary btn-lg">
+                            CREATE
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--  -->
+        </div>
+
+        <!-- coupon list -->
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-header">
+              <h4>Coupons Details</h4>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <input
+                    type="text"
+                    id="mySearch"
+                    placeholder="Search"
+                    style="padding: 8px"
+                  />
+                  <i
+                    class="fa-solid fa-magnifying-glass"
+                    style="
+                      color: #09a8f3;
+                      position: absolute;
+                      right: 40px;
+                      font-size: 15px;
+                      top: 10px;
+                    "
+                  ></i>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <% if(!coupon[0]) { %>
+                  <div class="col-12 text-center">
+                    <h2>No coupon</h2>
+                  </div>
+                  <% } else {%> <% coupon.forEach(function(coupon){ %>
+                  <div class="coupons-box">
+                    <div class="coupons-num">
+                      <h5
+                        data-bs-toggle="modal"
+                        data-bs-target="#subject-modal"
+                        data-subject="<%= JSON.stringify(coupon) %>"
+                        class="coupon_details"
+                      >
+                        <%= coupon.discount_percent %> OFF
+                      </h5>
+                      <h6>Code: <%= coupon.code %></h6>
+                    </div>
+                    <div
+                      class="coupons-img"
+                      style="
+                        background: url(/uploads/coupon/<%= coupon.image %>);
+                        no-repeat center; position:relative;
+                      "
+                    >
+                      <div
+                        class="feed-delete"
+                        style="
+                          margin-top: 38px;
+                          position: absolute;
+                          top: -30px;
+                          right: 10px;
+                        "
+                      >
+                        <i
+                          class="fas fa-trash"
+                          onclick="deletecourse('<%- coupon._id %>')"
+                        >
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                  <% }); %> <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+        <!-- coupon list -->
+      </div>
+    </div>
+  </section>
+
+  <!-- test book details modal  -->
+  <div class="modal fade" id="subject-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="">
+            <h4>Coupons Details</h4>
+            <br />
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body"></div>
+
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  $(document).on("click", ".coupon_details", function (e) {
+    const dataSubject = $(this).data("subject");
+    let dynamicHtml = `
+    <div class="row">
+            <img
+              src="/uploads/coupon/${dataSubject.image}"
+              alt=""
+              class="img-fluid"
+              style="height: 250px"
+            />
+          </div>
+          <div class="row mt-3">
+            <div class="col-8">
+              <h6>${dataSubject.course_id.course_name}</h6>
+              <br />
+              
+              <small
+                >Duration:
+                <b style="color: var(--primary-color)"
+                  > ${dataSubject.valid_till}</b
+                > </small
+              ><br />
+              <span>Code: ${dataSubject.code}</span>
+            </div>
+            <div class="col-4">
+              <p style="color: var(--primary-color)">
+                ${dataSubject.discount_percent} OFF 
+                Rs.${dataSubject.max_discount_value}
+              </p>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <h4>Description</h4>
+            <p>
+              ${dataSubject.description}
+            </p>
+          </div>
+    `;
+    // console.log(dynamicHtml);
+    $("#subject-modal").find(".modal-body").html(dynamicHtml);
+  });
+</script>
+
+<script>
+  var addform = $("#addform");
+
+  addform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addform[0]);
+    console.log(formData);
+    // // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/admin/coupon/add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/coupon/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

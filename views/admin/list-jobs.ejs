@@ -1,0 +1,337 @@
+<%- include('partials/header.ejs') %>
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <!--  List Faq Start-->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="background-color: #6777ef">
+              <div class="col-12">
+                <h4 class="float-left mt-2" style="color: #fff">Job List</h4>
+                <div class="head-right-btn">
+                  <a href="/admin/job/add"
+                    ><button
+                      class="btn btn-info float-right m-2"
+                      style="background-color: white; color: #6777ef"
+                    >
+                      Add Jobs
+                    </button></a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive p-2">
+                    <table class="table table-bordered table-md">
+                      <thead class="text-center">
+                        <tr>
+                          <th>Image</th>
+                          <th>Job Name</th>
+                          <th>Location</th>
+                          <th>Designation</th>
+                          <th>Experience Level</th>
+                          <th>Mode</th>
+                          <th>Last Date Of Apply</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <% if(!job[0]) { %>
+                        <tr>
+                          <td colspan="100%">No Data</td>
+                        </tr>
+                        <% } else {%> <% job.forEach(function(job){ %>
+                        <tr>
+                          <td>
+                            <img
+                              alt="file"
+                              src="/uploads/jobs/<%= job.image %>"
+                              height="50px"
+                              width="50px"
+                            />
+                          </td>
+                          <td><%= job.job_name %></td>
+                          <td><%= job.location %></td>
+                          <td><%= job.designation %></td>
+                          <td><%= job.experience_level %>Year</td>
+                          <td><%= job.mode %></td>
+                          <td><%= job.last_dateofapply %></td>
+
+                          <td>
+                            <i
+                              style="margin-top: 0px !important"
+                              class="btn btn-info btn-md fas fa-edit"
+                              id="edit_btn"
+                              data-toggle="modal"
+                              data-model="<%= JSON.stringify(job) %>"
+                            ></i>
+                            <i
+                              style="margin-top: 0px !important"
+                              class="btn btn-danger btn-md fas fa-trash-alt"
+                              onclick="deletecourse('<%- job._id %>')"
+                            >
+                            </i>
+                          </td>
+                        </tr>
+
+                        <% }); %> <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- List Faq Ends -->
+    </div>
+  </section>
+
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Jobs</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="row">
+                <div class="form-group w-50">
+                  <label>Job Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="job_name"
+                    id="job_name"
+                    placeholder="Enter Job Name"
+                  />
+                </div>
+                <div class="form-group w-50">
+                  <label>Location</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="editlocation"
+                    id="editlocation"
+                    placeholder="Enter Location"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group w-50">
+                  <label>Designation</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="editdesignation"
+                    id="editdesignation"
+                    placeholder="Enter Designation"
+                  />
+                </div>
+                <div class="form-group w-50">
+                  <label>Experience Level</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="editexperience_level"
+                    id="editexperience_level"
+                    placeholder="Enter Experience Level"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group w-50">
+                  <label>Last Date to Apply</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="editlast_dateofapply"
+                    id="editlast_dateofapply"
+                    placeholder="Enter Last Date to Apply"
+                  />
+                </div>
+                <div class="form-group w-50">
+                  <label>About Company</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="editabout_company"
+                    id="editabout_company"
+                    placeholder="Enter About Company"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group w-50">
+                  <label>Salary</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="editsalary"
+                    id="editsalary"
+                    placeholder="Enter Salary"
+                  />
+                </div>
+                <div class="form-group w-50">
+                  <label for="">Mode</label>
+                  <select class="form-control" id="editmode" name="editmode">
+                    <option value="">Select Mode</option>
+                    <option value="paid">Paid</option>
+                    <option value="free">Free</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- <div class="row">
+                <div class="col-6">
+                  <div class="form-group add-university-form">
+                    <label for="image" class="form-label">Image</label>
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="image"
+                        name="image"
+                      />
+                    </div>
+                  </div>
+                </div> -->
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Apply Link</label>
+                  <input
+                    type="text"
+                    name="editapply_link"
+                    id="editapply_link"
+                    class="form-control"
+                    placeholder="Apply Link"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <label> Description</label>
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    id="editjob_description"
+                    name="editjob_description"
+                    placeholder="Enter Description"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 text-right">
+                  <button class="btn btn-primary">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+<%- include('partials/footer.ejs') %>
+
+<script>
+  $(document).ready(function () {
+    $("#example").DataTable();
+  });
+
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#job_name").val(data.job_name);
+    $("#editlocation").val(data.location);
+    $("#editdesignation").val(data.designation);
+    $("#editexperience_level").val(data.experience_level);
+    $("#editlast_dateofapply").val(data.last_dateofapply);
+    $("#editabout_company").val(data.about_company);
+    $("#editsalary").val(data.salary);
+    $("#editmode").val(data.mode);
+    $("#editapply_link").val(data.apply_link);
+    $("#editjob_description").val(data.job_description);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/job/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/job/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

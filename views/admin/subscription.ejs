@@ -1,0 +1,471 @@
+<%- include('partials/header.ejs') %>
+
+<style>
+  /* #output {
+  padding: 20px;
+  background: #dadada;
+} */
+
+  form {
+    margin-top: 20px;
+  }
+
+  select {
+    width: 300px;
+  }
+
+  #display-image {
+    width: 191px;
+    height: 125px !important;
+    margin-top: 32px;
+    background-position: center;
+    background-size: cover;
+  }
+</style>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12">
+            <div class="university-card-header">
+              <h4>Subscription</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% if(!subscription[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No subscription</h2>
+            </div>
+            <% } else {%> <% subscription.forEach(function(subscription){ %>
+            <div class="col-md-3 mb-3">
+              <div class="subcribtion-head-txt">
+                <h5>
+                  <b
+                    ><%= subscription.duration %>
+                    <span style="color: #09a8f3"
+                      >Rs.<%= subscription.amount %></span
+                    ></b
+                  >
+                </h5>
+                <!-- <span><%= subscription.name %> </span> -->
+              </div>
+            </div>
+            <% }) %> <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- subscription list -->
+
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h5><b>Display Box</b></h5>
+            </div>
+            <div class="card-body">
+              <% if(!subscription[0]) { %>
+              <div class="col-12 text-center">
+                <h2>No subscription</h2>
+              </div>
+              <% } else {%> <% subscription.forEach(function(subscription){ %>
+              <div class="disply-box-1 mb-3">
+                <h6><%= subscription.duration %></h6>
+                <span class="text-right">
+                  <h6>Rs.<%= subscription.amount %></h6>
+                  <!-- <span>Name:<%= subscription.name%></span> -->
+                </span>
+                <div
+                  class="d-flex"
+                  style="
+                    flex-direction: column;
+                    margin-top: -10px;
+                    margin-right: -15px;
+                  "
+                >
+                  <i
+                    style="font-size: 16px"
+                    class="fas fa-edit text-info"
+                    id="edit_btn"
+                    data-toggle="modal"
+                    data-model="<%= JSON.stringify(subscription) %>"
+                  ></i>
+                  <i
+                    class="fas fa-trash"
+                    style="color: red !important; font-size: 16px"
+                    onclick="deletecourse('<%- subscription._id %>')"
+                  >
+                  </i>
+                </div>
+              </div>
+
+              <% }) %> <% } %>
+            </div>
+          </div>
+        </div>
+        <!-- subscription list -->
+
+        <!-- Add from -->
+        <div class="col-12 col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h4>Add Subscription</h4>
+            </div>
+            <form id="addform">
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Subscription Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    id="name"
+                    placeholder="Enter Subscription Name"
+                  />
+                </div>
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Subscription Type </label>
+                    <select class="form-control" name="type" id="type">
+                      <option value="">Select</option>
+                      <option value="Free">Free</option>
+                      <option value="Paid">Paid</option>
+                    </select>
+                  </div>
+                  <div class="form-group w-50">
+                    <label> Duration</label>
+                    <select class="form-control" name="duration" id="duration">
+                      <option value="">Select</option>
+                      <option value="1 Month">1 Month</option>
+                      <option value="3 Month">3 Months</option>
+                      <option value="6 Month">6 Months</option>
+                      <option value="12 Month">12 Months</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="output"></div>
+                <h6>Course</h6>
+                <div class="form-group add-university-form">
+                  <select
+                    data-placeholder="Choose course..."
+                    name="course_id"
+                    multiple
+                    class="chosen-select form-control"
+                    id="course_id"
+                  >
+                    <% course_id.forEach(function(course_id){%>
+                    <option value="<%= course_id._id %>">
+                      <%= course_id.course_name %>
+                    </option>
+                    <% }); %>
+                  </select>
+                </div>
+
+                <div id="output2"></div>
+                <h6>Subjects</h6>
+                <div class="form-group add-university-form">
+                  <select
+                    data-placeholder="Choose Subjects..."
+                    name="subject_id"
+                    multiple
+                    class="chosen-select2 form-control"
+                    id="subject_id"
+                  >
+                    <% subject_id.forEach(function(subject_id){%>
+                    <option value="<%= subject_id._id %>">
+                      <%= subject_id.title %>
+                    </option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="form-group" id="timeDiv">
+                  <label>Amount</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Amount"
+                    class="form-control"
+                    name="amount"
+                    id="amount"
+                  />
+                </div>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Add from -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Subscription</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="form-group">
+                        <label>Subscription Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="edit_name"
+                          id="edit_name"
+                          placeholder="Enter Subscription Name"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Subscription Type </label>
+                        <select
+                          class="form-control"
+                          name="edit_type"
+                          id="edit_type"
+                        >
+                          <option value="">Select</option>
+                          <option value="Free">Free</option>
+                          <option value="Paid">Paid</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label> Duration</label>
+                        <select
+                          class="form-control"
+                          name="edit_duration"
+                          id="edit_duration"
+                        >
+                          <option value="">Select</option>
+                          <option value="1 Month">1 Month</option>
+                          <option value="3 Month">3 Months</option>
+                          <option value="6 Month">6 Months</option>
+                          <option value="12 Month">12 Months</option>
+                        </select>
+                      </div>
+                      <div id="output"></div>
+                      <h6>Course</h6>
+                      <div class="form-group add-university-form">
+                        <select
+                          data-placeholder="Choose course..."
+                          name="edit_course_id"
+                          id="edit_course_id"
+                          multiple
+                          class="chosen-select form-control"
+                        >
+                          <% course_id.forEach(function(course_id){%>
+                          <option value="<%= course_id._id %>">
+                            <%= course_id.course_name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                      <div class="form-group" id="timeDiv1">
+                        <label>Amount</label>
+                        <input
+                          type="text"
+                          placeholder="Enter Amount"
+                          class="form-control"
+                          name="edit_amount"
+                          id="edit_amount"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-12">
+                      <button class="btn btn-primary">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+<script>
+  document.getElementById("output").innerHTML = location.search;
+  $(".chosen-select").chosen();
+</script>
+
+<script>
+  document.getElementById("output2").innerHTML = location.search;
+  $(".chosen-select2").chosen();
+</script>
+
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+
+  const form = $("#addform");
+
+  form.on("submit", submitHandler);
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    let data = {
+      name: $("#name").val(),
+      type: $("#type").val(),
+      duration: $("#duration").val(),
+      course_id: $("#course_id").val(),
+      subject_id: $("#subject_id").val(),
+      amount: $("#amount").val(),
+    };
+
+    console.log(data);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/subscription/add",
+      data: JSON.stringify(data),
+    })
+
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_name").val(data.name);
+    $("#edit_type").val(data.type);
+    $("#edit_duration").val(data.duration);
+    $("#edit_amount").val(data.amount);
+    $("#edit_course_id").val(data.course_id);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/subscription/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/subscription/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>
+
+<script>
+  $("#type").on("change", function (e) {
+    if ($(this).val() == "Paid") {
+      $("#timeDiv").css("display", "block");
+    } else {
+      $("#timeDiv").css("display", "none");
+    }
+  });
+
+  $("#edit_type").on("change", function (e) {
+    if ($(this).val() == "Paid") {
+      $("#timeDiv1").css("display", "block");
+    } else {
+      $("#timeDiv1").css("display", "none");
+    }
+  });
+</script>

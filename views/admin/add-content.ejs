@@ -1,0 +1,195 @@
+<%- include ('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-md-10">
+            <div class="university-card-header">
+              <h4>Add Content</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="addform">
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <input
+                    type="hidden"
+                    class="form-control"
+                    name="subject_id"
+                    value="<%= subject_id %>"
+                  />
+                  <div class="row">
+                    <div class="form-group add-university-form w-50">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="title"
+                        placeholder="Enter Title"
+                      />
+                    </div>
+                    <div class="form-group add-university-form w-50">
+                      <label>Select Type</label>
+                      <select class="form-control" name="type" id="type">
+                        <option value="">Select Type</option>
+
+                        <option value="textbook">Textbook</option>
+                        <option value="pdf">PDF</option>
+                        <option value="ppt">PPT</option>
+                        <option value="Notes">Notes</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group add-university-form">
+                        <label for="image" class="form-label">Add File</label>
+                        <div class="custom-file">
+                          <input
+                            type="file"
+                            class="form-control"
+                            id="file"
+                            name="pdf"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group add-university-form">
+                        <label for="image" class="form-label">Add Image</label>
+                        <div class="custom-file">
+                          <input
+                            type="file"
+                            class="form-control"
+                            id="thumbnail"
+                            name="thumbnail"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group add-university-form">
+                      <label>Description</label>
+                      <textarea
+                        class="form-control"
+                        rows="3"
+                        id="summernote"
+                        name="description"
+                        placeholder="Enter Description"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-12 text-right">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  var addsliderform = $("#addform");
+
+  addsliderform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addsliderform[0]);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      url: "/admin/content/add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+
+          setTimeout(() => {
+            window.location.replace("/admin/content/list?id=<%= subject_id %>");
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<!-- <script>
+
+  var addsliderform = $("#addform");
+
+  addsliderform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    var myFile = $("#file").val().split(".").pop().toLowerCase();
+    if ($("#type").val() == "") {
+      alert("Please Select Image");
+      return false;
+    } else if (myFile != $("#type").val()) {
+      alert("Please Select Valid File");
+      return false;
+    } else {
+      var formData = new FormData(addsliderform[0]);
+      // formData.append("subject_id", getUrlParameter("id"));
+      console.log(formData);
+      $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        url: "/admin/content/add",
+        data: formData,
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.replace(
+                "/admin/content/list?id=<%= subject_id %>"
+              );
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+
+</script>  -->

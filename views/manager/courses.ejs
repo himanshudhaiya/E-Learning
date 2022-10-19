@@ -1,0 +1,469 @@
+<%- include('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-6">
+            <div class="university-card-header">
+              <h4>Course</h4>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="university-card-header1">
+              <form action="">
+                <!-- <div class="form-group" style="margin: 0px">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected="">Add Filter</option>
+                    <option value="1">Add Filter</option>
+                    <option value="2">Add Filter</option>
+                    <option value="3">Add Filter</option>
+                  </select>
+                </div> -->
+              </form>
+              <!-- <div class="create-btn">
+                <a
+                  href=""
+                  class="add-btn-circle"
+                  data-bs-toggle="modal"
+                  data-bs-target="#create-course"
+                >
+                  <i
+                    class="fa fa-plus"
+                    style="margin-right: 0px; margin-top: 0px"
+                  ></i>
+                </a>
+                <span> Create New</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mt-5">
+            <% if(!course[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No Course</h2>
+            </div>
+            <% } else {%> <% course.forEach(function(course){ %>
+            <div class="col-md-4 mb-4">
+              <article
+                class="article"
+                style="border-radius: 10px; overflow: hidden"
+              >
+                <div class="article-header">
+                  <div
+                    class="article-image"
+                    data-background="/uploads/course/<%= course.image %>"
+                    style="
+                      background-image: url(/uploads/course/<%= course.image %>)
+                    "
+                    alt="<%= course.image %>"
+                    data-bs-toggle="modal"
+                    data-bs-target="#video-details"
+                  ></div>
+                </div>
+                <div class="article-details">
+                  <h6><%= course.course_name %></h6>
+                  <small
+                    ><%= course.semester %> Semester | <%= course.chapter %>
+                    Chapter</small
+                  >
+                  <div style="float: right">
+                    <i
+                      style="margin-top: 0px !important"
+                      class="btn btn-info btn-md fas fa-edit"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(course) %>"
+                    ></i>
+                    <i
+                      style="margin-top: 0px !important"
+                      class="btn btn-danger btn-md fas fa-trash-alt"
+                      onclick="deletecourse('<%- course._id %>')"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <% }); %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add course modal  -->
+  <div class="modal fade" id="create-course">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Create Course</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="addform">
+              <div class="col-12">
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label for="">Course Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="course_name"
+                      name="course_name"
+                      placeholder="Enter Course Name"
+                    />
+                  </div>
+
+                  <div class="form-group w-50">
+                    <label for="image" class="form-label">Image</label>
+
+                    <div class="custom-file mb-2">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="image"
+                        name="image"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label for="">Year</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="year"
+                      name="year"
+                      placeholder="Enter Year"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label for="">Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="semester"
+                      name="semester"
+                      placeholder="Enter Semester"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label for="">Chapter</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="chapter"
+                      name="chapter"
+                      placeholder="Enter Chapter"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label for="">Language</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="language"
+                      name="language"
+                      placeholder="Enter Language"
+                    />
+                  </div>
+                </div>
+                <!-- <div class="form-group w-50">
+                  <label for="">Mode</label>
+                  <select class="form-control" id="mode" name="mode" +>
+                    <option value="">Select Mode</option>
+                    <option value="paid">Paid</option>
+                    <option value="free">Free</option>
+                  </select>
+                </div> -->
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>mode</label>
+                      <select name="mode"class="form-control"  id="selectedOption"
+                      >
+                      <option value="">Select Mode</option>
+                        <option  value="free">Free</option>
+                        <option  value="paid">Paid</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6" id="timeDiv">
+                      <label>Amount</label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      id="amount"
+                      name="amount"
+                      placeholder="Enter amount"
+                    />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">Description</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="summernote"
+                    name="description"
+                    placeholder="Enter Description"
+                  ></textarea>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button class="btn btn-primary">CREATE</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Course</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="">Course Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit_course_name"
+                    name="edit_course_name"
+                  />
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label for="">Year</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="edit_year"
+                      name="edit_year"
+                      placeholder="Enter Year"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label for="">Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="edit_semester"
+                      name="edit_semester"
+                      placeholder="Enter Semester"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">Chapter</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit_chapter"
+                    name="edit_chapter"
+                    placeholder="Enter Chapter"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="">Language</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit_language"
+                    name="edit_language"
+                    placeholder="Enter Language"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="">Description</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="edit_description"
+                    name="edit_description"
+                    placeholder="Enter Language"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="">Mode</label>
+                  <select class="form-control" id="edit_mode" name="edit_mode">
+                    <option value="">Select Mode</option>
+                    <option value="paid">Paid</option>
+                    <option value="free">Free</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button class="btn btn-primary">Update</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer.ejs') %>
+<script>
+  var addform = $("#addform");
+
+  addform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addform[0]);
+    console.log(formData);
+    // // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/manager/course/add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_course_name").val(data.course_name);
+    $("#edit_year").val(data.year);
+    $("#edit_semester").val(data.semester);
+    $("#edit_chapter").val(data.chapter);
+    $("#edit_language").val(data.language);
+    $("#edit_description").val(data.description);
+    $("#edit_mode").val(data.mode);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/manager/course/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/manager/course/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>
+
+<script>
+  $("#selectedOption").on("change", function (e) {
+    if ($(this).val() == "paid") {
+      $("#timeDiv").css("display", "block");
+    } else {
+      $("#timeDiv").css("display", "none");
+    }
+  });
+</script>

@@ -1,0 +1,162 @@
+<%- include ('partials/header.ejs') %>
+<!-- multipart select -->
+<style>
+  /* #output {
+  padding: 20px;
+  background: #dadada;
+} */
+
+  form {
+    margin-top: 20px;
+  }
+
+  select {
+    width: 300px;
+  }
+
+  #display-image {
+    width: 191px;
+    height: 125px !important;
+    margin-top: 32px;
+    background-position: center;
+    background-size: cover;
+  }
+</style>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-9">
+            <div class="university-card-header">
+              <h4>Add University</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <form id="addform">
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="form-group add-university-form w-80">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      placeholder="Enter the Name of a University"
+                    />
+                  </div>
+
+                  <div id="output"></div>
+                  <h6>Course</h6>
+                  <div class="form-group add-university-form">
+                    <select
+                      data-placeholder="Choose course..."
+                      name="course_id"
+                      multiple
+                      class="chosen-select"
+                    >
+                      <% course_id.forEach(function(course_id){%>
+                      <option value="<%= course_id._id %>">
+                        <%= course_id.course_name %>
+                      </option>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <div class="fomr-group add-university-form w-50">
+                    <label for="image">Add File</label>
+                    <div class="custom-file w-70">
+                      <input type="file" class="form-control image-input"
+                      name="image" / id="image" accept="image/jpeg, image/png,
+                      image/jpg" >
+                    </div>
+                  </div>
+                  <div class="w-50">
+                    <div id="display-image"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <button class="btn btn-primary">Add</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include ('partials/footer.ejs') %>
+<!-- multipart select -->
+<script>
+  document.getElementById("output").innerHTML = location.search;
+  $(".chosen-select").chosen();
+</script>
+
+<script>
+  var addform = $("#addform");
+
+  addform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    if ($("#image").val() == "") {
+      alert("Please Select Image");
+      return false;
+    }
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addform[0]);
+    console.log(formData);
+    // // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/admin/university/add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({
+            message: res.message,
+            icon: "error",
+          });
+        } else {
+          renderToast({
+            message: res.message,
+            icon: "success",
+          });
+          setTimeout(() => {
+            window.location.replace("/admin/university/list");
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  const image_input = document.querySelector(".image-input");
+  image_input.addEventListener("change", function () {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      const uploaded_image = reader.result;
+      document.querySelector(
+        "#display-image"
+      ).style.backgroundImage = `url(${uploaded_image})`;
+    });
+    reader.readAsDataURL(this.files[0]);
+  });
+</script>

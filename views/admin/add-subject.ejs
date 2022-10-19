@@ -1,0 +1,155 @@
+<%- include ('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-md-10">
+            <div class="university-card-header">
+              <h4>Add Subject</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="addform">
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <input
+                    type="hidden"
+                    class="form-control"
+                    name="course_id"
+                    value="<%= course_id %>"
+                  />
+                  <div class="form-group add-university-form">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="title"
+                      placeholder="Enter Title"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group add-university-form w-50">
+                    <label>Year</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="year"
+                      placeholder="Enter year"
+                    />
+                  </div>
+                  <div class="form-group add-university-form w-50">
+                    <label>Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="semester"
+                      placeholder="Enter semester"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group add-university-form">
+                    <label for="image" class="form-label">Image</label>
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="image"
+                        name="image"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group add-university-form">
+                  <label>Description</label>
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    id="summernote"
+                    name="description"
+                    placeholder="Enter Description"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-12 text-right">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split("&"),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split("=");
+
+      if (sParameterName[0] === sParam) {
+        return typeof sParameterName[1] === undefined
+          ? true
+          : decodeURIComponent(sParameterName[1]);
+      }
+    }
+    return false;
+  }
+  var addsliderform = $("#addform");
+
+  addsliderform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addsliderform[0]);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      url: "/admin/course/subject_add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.replace(
+              "/admin/course/subject_list?id=<%= course_id %>"
+            );
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>

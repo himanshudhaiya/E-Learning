@@ -1,0 +1,95 @@
+<%- include('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" style="background-color: #6777ef">
+              <div class="col-12">
+                <h4 class="float-left" style="color: #fff">
+                  Terms & Conditions
+                </h4>
+              </div>
+            </div>
+            <form id="form">
+              <div class="card-body">
+                <div class="row">
+                  <label
+                    class="col-form-label col-12 col-md-3 col-lg-2"
+                    style="color: #000; font-size: 16px; font-weight: bold"
+                    >Content :-</label
+                  >
+                  <div class="col-10">
+                    <textarea
+                      name="content"
+                      id="summernote"
+                      rows="8"
+                      cols="50"
+                      style="width: 100%"
+                    >
+                    <%= content %>
+                  </textarea
+                    >
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="btn mt-4 mb-4 pull-right"
+                  style="background-color: #6777ef; color: #fff"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include ('partials/footer.ejs') %>
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+  const form = $("#form");
+
+  form.on("submit", submitHandler);
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData($("#form"));
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "termscondition",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>

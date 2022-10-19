@@ -1,0 +1,241 @@
+<%- include('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-6">
+            <div class="university-card-header">
+              <h4>College</h4>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="university-card-header1">
+              <form action="">
+                <!-- <div class="form-group" style="margin: 0px">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected="">Add Filter</option>
+                    <option value="1">Add Filter</option>
+                    <option value="2">Add Filter</option>
+                    <option value="3">Add Filter</option>
+                  </select>
+                </div> -->
+              </form>
+              <!-- <div class="create-btn">
+                <a href="/manager/college/add" class="add-btn-circle">
+                  <i
+                    class="fa fa-plus"
+                    style="margin-right: 0px; margin-top: 0px"
+                  ></i>
+                </a>
+                <span> Create New</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mt-5">
+            <% if(!college[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No college</h2>
+            </div>
+            <% } else {%> <% college.forEach(function(college){ %>
+            <div class="col-md-4 mb-4">
+              <article
+                class="article"
+                style="border-radius: 10px; overflow: hidden"
+              >
+                <div class="article-header">
+                  <div
+                    class="article-image"
+                    data-background="/uploads/college/<%= college.image %>"
+                    style="
+                      background-image: url(/uploads/college/<%= college.image %>);
+                    "
+                    alt="<%= college.image %>"
+                  
+                  ></div>
+                </div>
+                <div class="article-details">
+                  <p style="float: left"><%= college.name %></p>
+                  <div style="float: right">
+                    <i
+                      style="margin-top: 0px !important"
+                      class="btn btn-info btn-md fas fa-edit"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(college) %>"
+                    ></i>
+                    <i
+                      style="margin-top: 0px !important"
+                      class="btn btn-danger btn-md fas fa-trash-alt"
+                      onclick="deleteCollege('<%- college._id %>')"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <% }); %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit College</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="form-group add-university-form w-80">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="edit_name"
+                      name="edit_name"
+                      placeholder="Enter the Name of a University"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Course</label>
+                    <select
+                      class="form-control show-tick ms select2"
+                      data-placeholder="Select"
+                      name="edit_course_id"
+                      id="edit_course_id"
+                    >
+                      <option value="" disabled selected>Select Course</option>
+                      <% course_id.forEach(function(course_id){%>
+                      <option value="<%= course_id._id %>">
+                        <%= course_id.course_name %>
+                      </option>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>University</label>
+                    <select
+                      class="form-control show-tick ms select2"
+                      data-placeholder="Select"
+                      name="edit_university_id"
+                      id="edit_university_id"
+                    >
+                      <option value="" disabled selected>
+                        Select University
+                      </option>
+                      <% university_id.forEach(function(university_id){%>
+                      <option value="<%= university_id._id %>">
+                        <%= university_id.name %>
+                      </option>
+                      <% }); %>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="row mt-5">
+                <div class="col-12">
+                  <button class="btn btn-primary">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer.ejs') %>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_name").val(data.name);
+    $("#edit_course_id").val(data.course_id._id);
+    $("#edit_university_id").val(data.university_id._id);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/manager/college/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deleteCollege(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/manager/college/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

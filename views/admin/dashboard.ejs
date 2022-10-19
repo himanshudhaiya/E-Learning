@@ -1,0 +1,326 @@
+<%- include('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <!-- Total Student  Card-->
+      <div class="card">
+        <div class="row">
+          <div class="col-12 col-md-4 col-sm-3 col-lg-3">
+            <img
+              src="/assets/img/—Pngtree—flat upgrade software digital network_6198776.png"
+              class="img-fluid w-50"
+              alt=""
+            />
+          </div>
+          <div class="col-12 col-md-4 col-sm-3 col-lg-3 total-number">
+            <h3><%= subjects %></h3>
+            <span>Total Subjects</span>
+          </div>
+          <div class="col-12 col-md-4 col-sm-3 col-lg-3 total-number">
+            <h3><%= users %></h3>
+            <span>Total Students</span>
+          </div>
+          <div class="col-12 col-md-4 col-sm-3 col-lg-3 total-number">
+            <h3>89</h3>
+            <span>Total Subscribers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Card -->
+      <div class="card">
+        <div class="total-course-box">
+          <div class="total-course total-number">
+            <h3><%= courses %></h3>
+            <span>Total courses</span>
+          </div>
+          <div class="total-course total-number">
+            <h3><%= colleges %></h3>
+            <span>Total Collages</span>
+          </div>
+          <div class="total-course total-number">
+            <h3>345</h3>
+            <span>Today's Users</span>
+          </div>
+          <div class="total-course total-number">
+            <h3>45</h3>
+            <span>Today's Subscribers</span>
+          </div>
+          <div class="total-course total-number">
+            <h3>5,999</h3>
+            <span>Today's Payments</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Card -->
+      <div class="row">
+        <div class="col-12 col-md-6 col-sm-6 col-lg-6">
+          <h4>Subscribers</h4>
+        </div>
+        <div class="col-12 col-md-6 col-sm-6 col-lg-6">
+          <div class="filter-card">
+            <!-- <form action="">
+              <div class="form-group">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>University</option>
+                  <option value="1">University</option>
+                  <option value="2">University</option>
+                  <option value="3">University</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Collage</option>
+                  <option value="1">Collage</option>
+                  <option value="2">Collage</option>
+                  <option value="3">Collage</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Branch</option>
+                  <option value="1">Branch</option>
+                  <option value="2">Branch</option>
+                  <option value="3">Branch</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Year</option>
+                  <option value="1">Year</option>
+                  <option value="2">Year</option>
+                  <option value="3">Year</option>
+                </select>
+              </div>
+            </form> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscribers -->
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-7">
+          <div class="card">
+            <div class="card-body">
+              <div id="container" style="height: 400px; width: 500px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-5">
+          <div class="card">
+            <div class="card-header title-card">
+              <h4>Subscribers</h4>
+            </div>
+            <div class="card-body">
+              <!-- <form class="search-form" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search" />
+                <button type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+              </form> -->
+
+              <ul
+                class="list-unstyled list-unstyled-border user-list mt-4"
+                id="message-list"
+              >
+                <li class="media">
+                  <img
+                    alt="image"
+                    src="/assets/img/users/user-1.png"
+                    class="mr-3 user-img-radious-style user-list-img"
+                  />
+                  <div class="media-body">
+                    <div class="mt-0 font-weight-bold">Cara Stevens</div>
+                    <div class="text-small">Hello How R You?</div>
+                  </div>
+                  <div class="view-link">
+                    <a href="#" class="">View</a>
+                  </div>
+                </li>
+                <li class="media">
+                  <img
+                    alt="image"
+                    src="/assets/img/users/user-4.png"
+                    class="mr-3 user-img-radious-style user-list-img"
+                  />
+                  <div class="media-body">
+                    <div class="mt-0 font-weight-bold">Airi Satou</div>
+                    <div class="text-small">Please email me regarding this</div>
+                  </div>
+                  <div class="view-link">
+                    <a href="#" class="">View</a>
+                  </div>
+                </li>
+                <li class="media">
+                  <img
+                    alt="image"
+                    src="/assets/img/users/user-1.png"
+                    class="mr-3 user-img-radious-style user-list-img"
+                  />
+                  <div class="media-body">
+                    <div class="mt-0 font-weight-bold">Angelica Ramos</div>
+                    <div class="text-small">Will You marry me??</div>
+                  </div>
+                  <div class="view-link">
+                    <a href="#" class="">View</a>
+                  </div>
+                </li>
+                <li class="media">
+                  <img
+                    alt="image"
+                    src="/assets/img/users/user-2.png"
+                    class="mr-3 user-img-radious-style user-list-img"
+                  />
+                  <div class="media-body">
+                    <div class="mt-0 font-weight-bold">Ashton Cox</div>
+                    <div class="text-small">Can't talk!!!</div>
+                  </div>
+                  <div class="view-link">
+                    <a href="#" class="">View</a>
+                  </div>
+                </li>
+                <li class="media">
+                  <img
+                    alt="image"
+                    src="/assets/img/users/user-3.png"
+                    class="mr-3 user-img-radious-style user-list-img"
+                  />
+                  <div class="media-body">
+                    <div class="mt-0 font-weight-bold">Cara Stevens</div>
+                    <div class="text-small">Request for leave application</div>
+                  </div>
+                  <div class="view-link">
+                    <a href="#" class="">View</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subject Card -->
+      <div class="row">
+        <div class="col-12">
+          <h4>Subjects</h4>
+        </div>
+      </div>
+
+      <!-- Subject -->
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <div id="subject-chart" style="height: 400px; width: 600px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-4">
+          <!-- <div class="card">
+            <div class="card-header title-card">
+              <h4>Subjects</h4>
+            </div>
+            <div class="card-body">
+              <form class="search-form" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search" />
+                <button type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+              </form>
+
+              <div class="search-book-section mt-4">
+                <div class="book-img-box">
+                  <img
+                    src="/assets/img/blog/img01.png"
+                    class="book-img img-fluid"
+                    alt=""
+                  />
+                  <span>English</span>
+                </div>
+                <div class="book-img-box">
+                  <img
+                    src="/assets/img/blog/img02.png"
+                    class="book-img img-fluid"
+                    alt=""
+                  />
+                  <span>Computer Science</span>
+                </div>
+              </div>
+
+              <div class="search-book-section mt-4">
+                <div class="book-img-box">
+                  <img
+                    src="/assets/img/blog/img05.png"
+                    class="book-img img-fluid"
+                    alt=""
+                  />
+                  <span>Data Science</span>
+                </div>
+                <div class="book-img-box">
+                  <img
+                    src="/assets/img/blog/img14.png"
+                    class="book-img img-fluid"
+                    alt=""
+                  />
+                  <span>Programming</span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Payment Card -->
+      <div class="row">
+        <div class="col-12">
+          <h4>Payment</h4>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-7">
+          <div class="card">
+            <div class="card-body">
+              <div id="payment-chart" style="height: 400px; width: 500px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-5">
+          <div class="card">
+            <div class="card-header">
+              <h4>Payment</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="payment-das-section">
+                  <img
+                    src="/assets/img/—Pngtree—flat upgrade software digital network_6198776.png"
+                    class="img-fluid w-50"
+                    alt=""
+                  />
+                  <span>Total Amount</span>
+                  <h2>Rs 2,00,000</h2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="payment-das-btn">
+                  <button class="btn btn-primary btn-lg">
+                    Withdraw to Transaction
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Main Content -->
+
+<%- include('partials/footer.ejs') %>

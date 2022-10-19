@@ -1,0 +1,371 @@
+<%- include ('partials/header.ejs') %>
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-10">
+            <div class="university-card-header">
+              <h4>Mentorship</h4>
+            </div>
+          </div>
+          <div class="col-12 col-lg-2">
+            <div class="university-card-header1">
+              <div class="create-btn">
+                <a href="/admin/mentorship/add" class="add-btn-circle">
+                  <i
+                    class="fa fa-plus"
+                    style="margin-right: 0px; margin-top: 0px"
+                  ></i>
+                </a>
+                <span> Create New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mt-5">
+            <% if(!mentorship[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No Mentorship</h2>
+            </div>
+            <% } else {%> <% mentorship.forEach(function(mentorship){ %>
+            <div class="col-md-4 mb-4">
+              <article
+                class="article"
+                style="border-radius: 10px; overflow: hidden"
+              >
+                <div
+                  class="article-header"
+                  style="position: relative; height: 230px !important"
+                >
+                  <div
+                    class="article-image"
+                    style="
+                      background-image: url(/uploads/mentorship/<%= mentorship.image %>);
+                    "
+                  >
+                    <div
+                      class="d-flex mt-4"
+                      style="position: absolute; right: 0; top: -23px"
+                    >
+                      <div class="feed-delete">
+                        <i
+                          class="fas fa-edit text-info"
+                          id="edit_btn"
+                          data-toggle="modal"
+                          data-model="<%= JSON.stringify(mentorship) %>"
+                        ></i>
+                      </div>
+
+                      <div class="feed-delete" style="margin-top: 38px">
+                        <i
+                          class="fas fa-trash"
+                          onclick="deletecourse('<%- mentorship._id %>')"
+                        >
+                        </i>
+                      </div>
+                    </div>
+
+                    <div
+                      class="subject-name mentor-course-name"
+                      data-bs-toggle="modal"
+                      data-bs-target="#subject-modal"
+                    >
+                      <div class="row">
+                        <div class="col-8 mt-2">
+                          <h6 style="color: var(--dark-color)"
+                          data-subject="<%= JSON.stringify(mentorship) %>"
+                           class="mentorship_details"
+                          >
+                            <%= mentorship.title %>
+                          </h6>
+                          <small
+                            >Register Before <%=
+                            convertTimeStampToDate(mentorship.created_at) %> </small
+                          ><br />
+                          <small
+                            >Duration:
+                            <b
+                              style="
+                                color: var(--primary-color);
+                                font-size: 10px;
+                              "
+                              ><%= mentorship.timing_from %> | <%=
+                              mentorship.timing_to %></b
+                            >
+                          </small>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <span style="color: black">
+                            Amount: <%= mentorship.amount %></span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <% }); %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- test book details modal  -->
+  <div class="modal fade" id="subject-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="">
+            <h4>Details</h4>
+            <br />
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+        </div>
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Mentorship</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="form-group add-university-form">
+                        <label>Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="edit_title"
+                          name="edit_title"
+                          placeholder="Enter Title"
+                        />
+                      </div>
+
+                      <div class="form-group add-university-form">
+                        <label>Content</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="edit_content"
+                          name="edit_content"
+                          placeholder="Enter Content"
+                        />
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group add-university-form w-50">
+                          <label>Timing From</label>
+                          <div class="input-group input-daterange">
+                            <input
+                              type="date"
+                              name="edit_timing_from"
+                              id="edit_timing_from"
+                              class="start-date form-control"
+                            />
+                          </div>
+                        </div>
+                        <div class="form-group add-university-form w-50">
+                          <label>Timing To</label>
+                          <div class="input-group input-daterange">
+                            <input
+                              type="date"
+                              name="edit_timing_to"
+                              id="edit_timing_to"
+                              class="start-date form-control"
+                            />
+                          </div>
+                        </div>
+                        <div class="form-group add-university-form w-50">
+                          <label>Amount</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="edit_amount"
+                            id="edit_amount"
+                            placeholder="Enter Amount"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group add-university-form">
+                          <label>Description</label>
+                          <textarea
+                            class="form-control"
+                            rows="3"
+                            name="edit_description"
+                            id="edit_description"
+                            placeholder="Enter Description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-12">
+                      <button class="btn btn-primary">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+<!-- Main Content -->
+
+<%
+function convertTimeStampToDate(date){
+   date = Number(date)
+      var d = new Date(date),
+         month = '' + (d.getMonth() + 1),
+         day = '' + d.getDate(),
+         year = d.getFullYear();
+
+   if (month.length < 2)
+   month = '0' + month;
+   if (day.length < 2)
+   day = '0' + day;
+   var date = new Date();
+   date.toLocaleDateString();
+
+   return [day, month, year].join('-');
+}
+%>
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  $(document).on("click", ".mentorship_details", function (e) {
+    const dataSubject = $(this).data("subject");
+    let dynamicHtml = `
+    <div class="row">
+            <img
+              src="/uploads/mentorship/${ dataSubject.image }"
+              alt="${ dataSubject.image }"
+              class="img-fluid"
+              style="height: 250px"
+            />
+          </div>
+          <div class="row mt-3">
+            <h4>Description</h4>
+            <p>${ dataSubject.description }</p>
+          </div>
+    `;
+    // console.log(dynamicHtml);
+    $("#subject-modal").find(".modal-body").html(dynamicHtml);
+  });
+</script>
+
+
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_title").val(data.title);
+    $("#edit_content").val(data.content);
+    $("#edit_timing_from").val(data.timing_from);
+    $("#edit_timing_to").val(data.timing_to);
+    $("#edit_amount").val(data.amount);
+    $("#edit_description").val(data.description);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/mentorship/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/mentorship/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

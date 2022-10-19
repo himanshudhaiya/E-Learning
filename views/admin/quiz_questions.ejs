@@ -1,0 +1,416 @@
+<%- include ('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div
+              class="card-header"
+              style="height: 70px; background-color: #6777ef"
+            >
+              <div class="col-12">
+                <h4 class="float-left" style="color: #fff">Questions</h4>
+                <div class="head-right-btn">
+                  <button
+                    class="btn btn-lg float-right card-text-btn"
+                    style="background-color: #fff"
+                    type="submit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#myModal"
+                  >
+                    <a
+                      href="#"
+                      data-ajax-popup="true"
+                      data-size="md"
+                      data-title="Invite New User"
+                      data-toggle="tooltip"
+                      title=""
+                      data-bs-original-title="Add Questions"
+                    >
+                      Add
+                    </a>
+                  </button>
+                  <div class="head-right-btn">
+                    <button
+                      class="btn btn-lg float-right card-text-btn mr-2"
+                      style="background-color: #fff"
+                      type="submit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#importexcel"
+                    >
+                      <a
+                        href="#"
+                        data-ajax-popup="true"
+                        data-size="md"
+                        data-title="Invite New User"
+                        data-toggle="tooltip"
+                        title=""
+                        data-bs-original-title="Import Excel"
+                      >
+                        Import Excel
+                      </a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive p-2">
+                    <table id="example" class="table table-bordered table-md">
+                      <thead>
+                        <tr>
+                          <th>Question</th>
+                          <th>Option A</th>
+                          <th>Option B</th>
+                          <th>Option C</th>
+                          <th>Option D</th>
+                          <th>Right Answer</th>
+                          <!-- <th>Action</th> -->
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <% if(!questions[0]) { %>
+                        <tr>
+                          <td colspan="100%">No Data</td>
+                        </tr>
+                        <% } else {%> <% questions.forEach(function(questions){%>
+                        <tr>
+                          <td>
+                            <%= questions.question ? questions.question : '' %>
+                          </td>
+                          <td>
+                            <%= questions.option_a ? questions.option_a : '' %>
+                          </td>
+                          <td>
+                            <%= questions.option_b ? questions.option_b : '' %>
+                          </td>
+                          <td>
+                            <%= questions.option_c ? questions.option_c : '' %>
+                          </td>
+                          <td>
+                            <%= questions.option_d ? questions.option_d : '' %>
+                          </td>
+                          <td>
+                            <%= questions.right_answer ? questions.right_answer
+                            : '' %>
+                          </td>
+
+                          <!-- <td>
+                            <i
+                              class="btn btn-danger btn-md fas fa-trash-alt"
+                              onclick="deletequestion('<%= questions._id %>');"
+                            ></i>
+                          </td> -->
+                        </tr>
+
+                        <% }); %> <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="myModal">
+    <!-- modal  -->
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Questions</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="body">
+          <div class="modal-body">
+            <form id="addForm_questions">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="form-group add-university-form">
+                      <label>Question</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="question"
+                        name="question"
+                        placeholder="Enter question"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Option A</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="option_a"
+                      name="option_a"
+                      placeholder="Enter option_1"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Option B</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="option_b"
+                      name="option_b"
+                      placeholder="Enter option_2"
+                    />
+                  </div>
+
+                  <div class="form-group add-university-form">
+                    <label>Option C</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="option_c"
+                      name="option_c"
+                      placeholder="Enter option_3"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Option D</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="option_d"
+                      name="option_d"
+                      placeholder="Enter option_4"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Right Answer</label>
+                    <select
+                      class="form-control"
+                      name="right_answer"
+                      id="right_answer"
+                    >
+                      <option value="">Select</option>
+                      <option value="option_a">Option A</option>
+                      <option value="option_b">Option B</option>
+                      <option value="option_c">Option C</option>
+                      <option value="option_b">Option D</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-12 modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <!-- modal  -->
+  </div>
+
+  <!-- import excel modal -->
+  <div class="modal" id="importexcel">
+    <!-- modal  -->
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Import Excel</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="body">
+          <div class="modal-body">
+            <form
+              id="uploadexcel"
+              class="form-group font-weight-bold showcursor: true"
+            >
+              <div class="mb-3 d-grid gap-2 col-12 mx-auto">
+                <input
+                  type="file"
+                  name="excel"
+                  id="excel"
+                  class="form-control"
+                  placeholder="excel"
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn mt-3 pull-right"
+                style="background-color: #6777ef; color: #fff"
+              >
+                Add
+              </button>
+            </form>
+          </div>
+          <div class="col-md-12 modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <!-- import excel modal -->
+  </div>
+</div>
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split("&"),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split("=");
+
+      if (sParameterName[0] === sParam) {
+        return typeof sParameterName[1] === undefined
+          ? true
+          : decodeURIComponent(sParameterName[1]);
+      }
+    }
+    return false;
+  }
+  var addtestform = $("#addForm_questions");
+
+  addtestform.on("submit", addtestsubmitHandler);
+
+  function addtestsubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = getFormData(addtestform);
+    formData["id"] = getUrlParameter("id");
+    console.log(formData);
+
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/quiz/add_questions",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<!-- <script>
+  function deletequestion(id) {
+    if (confirm("Do you really want to delete this question")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/quiz/delete_question",
+        data: JSON.stringify({
+          
+          quesid: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script> -->
+
+<script>
+  $(document).ready(function () {
+    $("#example").DataTable();
+  });
+
+  var uploadexcelform = $("#uploadexcel");
+
+  uploadexcelform.on("submit", addquestionssubmitHandler);
+
+  function addquestionssubmitHandler(e) {
+    e.preventDefault();
+
+    // vaidation
+    if ($("#excel").get(0).files.length === 0) {
+      alert("No files selected");
+      return false;
+    }
+
+    // PREPARE FORM DATA
+    var formData = new FormData($("#uploadexcel")[0]);
+    formData.append("id", getUrlParameter("id"));
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      cache: false,
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      url: "/admin/quiz/import_excel",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>

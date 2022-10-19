@@ -1,0 +1,315 @@
+<%- include ('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-10">
+            <div class="university-card-header">
+              <h4>Feed</h4>
+            </div>
+          </div>
+          <div class="col-12 col-lg-2">
+            <div class="university-card-header1">
+              <div class="create-btn">
+                <a href="/admin/feed/add" class="add-btn-circle">
+                  <i
+                    class="fa fa-plus"
+                    style="margin-right: 0px; margin-top: 0px"
+                  ></i>
+                </a>
+                <span> Create New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mt-5">
+            <% if(!feed[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No feed</h2>
+            </div>
+            <% } else {%> <% feed.forEach(function(feed){ %>
+            <div class="col-md-4 mb-4">
+              <article
+                class="article"
+                style="border-radius: 10px; overflow: hidden"
+              >
+                <div
+                  class="article-header"
+                  style="position: relative; height: 230px !important"
+                >
+                  <div
+                    class="article-image"
+                    style="
+                      background-image: url(/uploads/feed/<%= feed.image %>);
+                    "
+                  >
+                    <div
+                      class="d-flex mt-4"
+                      style="position: absolute; right: 0; top: -23px"
+                    >
+                      <div class="feed-delete">
+                        <i
+                          class="fas fa-edit text-info"
+                          id="edit_btn"
+                          data-toggle="modal"
+                          data-model="<%= JSON.stringify(feed) %>"
+                        ></i>
+                      </div>
+
+                      <div class="feed-delete" style="margin-top: 38px">
+                        <i
+                          class="fas fa-trash"
+                          onclick="deletecourse('<%- feed._id %>')"
+                        >
+                        </i>
+                      </div>
+                    </div>
+
+                    <div
+                      class="subject-name feed-details-name"
+                      data-bs-toggle="modal"
+                      data-bs-target="#feed-modal"
+                    >
+                      <div class="row">
+                        <div class="col-12">
+                          <span
+                            style="
+                              font-weight: bolder;
+                              font-size: 18px;
+                              height: 100px;
+                            "
+                            data-subject="<%= JSON.stringify(feed) %>"
+                            class="feed_details"
+                            ><%= feed.title %></span
+                          >
+                          <br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <% }); %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- test book details modal  -->
+  <div class="modal fade" id="feed-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="">
+            <h4>Details</h4>
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <!-- <div class="row mt-3">
+            <div class="col-12">
+              <div class="comment-box">
+                <h6>Comments: 01</h6>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="row mt-3">
+            <div class="col-12">
+              <div class="comment-profile">
+                <img
+                  alt="image"
+                  src="assets/img/users/user-5.png"
+                  class="rounded-circle"
+                  style="width: 50px; height: 50px; margin-right: 20px"
+                />
+                <div class="comment-profile-details">
+                  <h6>John Doe</h6>
+                  <p>
+                    The COVID-19 has resulted in schools shut all across the
+                    world Globally.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Feed</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="form-group add-university-form w-80">
+                        <label>Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="edit_title"
+                          name="edit_title"
+                          placeholder="Enter Title"
+                        />
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group add-university-form w-80">
+                          <label>Description</label>
+                          <textarea
+                            class="form-control"
+                            rows="3"
+                            id="edit_description"
+                            name="edit_description"
+                            placeholder="Enter Description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  $(document).on("click", ".feed_details", function (e) {
+    const dataSubject = $(this).data("subject");
+    let dynamicHtml = `
+    <div class="row">
+            <img
+              src="/uploads/feed/${dataSubject.image}"
+              alt="${dataSubject.image}"
+              class="img-fluid"
+              style="height: 250px"
+            />
+          </div>
+          <div class="row mt-3">
+            <h6>${dataSubject.title}</h6>
+            <p>${dataSubject.description}</p>
+          </div>
+    `;
+    // console.log(dynamicHtml);
+    $("#feed-modal").find(".modal-body").html(dynamicHtml);
+  });
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_title").val(data.title);
+    $("#edit_content").val(data.content);
+    $("#edit_timing_from").val(data.timing_from);
+    $("#edit_timing_to").val(data.timing_to);
+    $("#edit_amount").val(data.amount);
+    $("#edit_description").val(data.description);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/feed/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/feed/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

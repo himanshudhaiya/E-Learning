@@ -1,0 +1,383 @@
+<%- include('partials/header.ejs') %>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12">
+            <div class="university-card-header">
+              <h4>Subscription</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% if(!subscription[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No subscription</h2>
+            </div>
+            <% } else {%> <% subscription.forEach(function(subscription){ %>
+            <div class="col-md-3">
+              <div class="subcribtion-head-txt">
+                <h5>
+                  <b
+                    ><%= subscription.month %> Months:
+                    <span style="color: #09a8f3"
+                      >Rs.<%= subscription.amount %></span
+                    ></b
+                  >
+                </h5>
+                <span>Rs.<%= subscription.amount_per_month %> Per Month</span>
+              </div>
+            </div>
+            <% }) %> <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- subscription list -->
+
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h5><b>Display Box</b></h5>
+            </div>
+            <div class="card-body">
+              <% if(!subscription[0]) { %>
+              <div class="col-12 text-center">
+                <h2>No subscription</h2>
+              </div>
+              <% } else {%> <% subscription.forEach(function(subscription){ %>
+              <div class="disply-box-1 mb-3">
+                <h6><%= subscription.month %> Months</h6>
+                <span class="text-right">
+                  <h6>Rs.<%= subscription.amount %></h6>
+                  <span>Rs.<%= subscription.amount_per_month %> Per Month</span>
+                </span>
+                <div
+                  class="d-flex"
+                  style="
+                    flex-direction: column;
+                    margin-top: -10px;
+                    margin-right: -15px;
+                  "
+                >
+                  <i
+                    style="font-size: 16px"
+                    class="fas fa-edit text-info"
+                    id="edit_btn"
+                    data-toggle="modal"
+                    data-model="<%= JSON.stringify(subscription) %>"
+                  ></i>
+                  <i
+                    class="fas fa-trash"
+                    style="color: red !important; font-size: 16px"
+                    onclick="deletecourse('<%- subscription._id %>')"
+                  >
+                  </i>
+                </div>
+              </div>
+
+              <% }) %> <% } %>
+            </div>
+          </div>
+        </div>
+        <!-- subscription list -->
+
+        <!-- Add from -->
+        <div class="col-12 col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h4>Add Subscription</h4>
+            </div>
+            <form id="addform">
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Months</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="month"
+                    placeholder="Enter months"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Amount</label>
+                  <input
+                    type="text"
+                    name="amount"
+                    placeholder="Enter amount"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Amount Per Month</label>
+                  <input
+                    type="text"
+                    name="amount_per_month"
+                    class="form-control"
+                    placeholder="Enter amount per month"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Heading</label>
+                  <input
+                    type="text"
+                    placeholder="Enter heading"
+                    class="form-control"
+                    name="heading"
+                  />
+                </div>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Add from -->
+
+        <!-- search filter -->
+        <div class="col-12 col-md-4">
+          <div class="card">
+            <div class="card-header title-card">
+              <input type="text" id="mySearch" placeholder="Search" />
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="
+                  color: #09a8f3;
+                  position: absolute;
+                  right: 40px;
+                  font-size: 18px;
+                  top: 16px;
+                "
+              ></i>
+            </div>
+            <div class="card-body">
+              <div class="st-search-box">
+                <div class="st-search-pro-box mb-3">
+                  <div class="st-profile-1">
+                    <div class="st-img-box"></div>
+                    <div class="st-text-box">
+                      <span>david Gariex</span>
+                      <small>B.tech | 1st year</small>
+                    </div>
+                  </div>
+                  <span style="color: #09a8f3">28 Day Left</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- search filter -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Edit course modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Subscription</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid" name="editid" />
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="form-group">
+                        <label>Months</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="edit_month"
+                          id="edit_month"
+                          placeholder="Enter months"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Amount</label>
+                        <input
+                          type="text"
+                          name="edit_amount"
+                          id="edit_amount"
+                          placeholder="Enter amount"
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Amount Per Month</label>
+                        <input
+                          type="text"
+                          name="edit_amount_per_month"
+                          id="edit_amount_per_month"
+                          class="form-control"
+                          placeholder="Enter amount per month"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Heading</label>
+                        <input
+                          type="text"
+                          placeholder="Enter heading"
+                          class="form-control"
+                          name="edit_heading"
+                          id="edit_heading"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-12">
+                      <button class="btn btn-primary">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+
+  const form = $("#addform");
+
+  form.on("submit", submitHandler);
+
+  function submitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    const formData = getFormData($(form));
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/manager/subscription/add",
+      data: JSON.stringify(formData),
+    })
+
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_month").val(data.month);
+    $("#edit_amount").val(data.amount);
+    $("#edit_amount_per_month").val(data.amount_per_month);
+    $("#edit_heading").val(data.heading);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/manager/subscription/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/manager/subscription/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

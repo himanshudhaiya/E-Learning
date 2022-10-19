@@ -1,0 +1,99 @@
+<%- include('partials/header.ejs') %>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div
+              class="card-header"
+              style="height: 70px; background-color: #6777ef"
+            >
+              <div class="col-12">
+                <h4 class="float-left" style="color: #fff">Payment History</h4>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive p-2">
+                    <table id="example"  class="table table-bordered table-md text-center">
+                      <thead>
+                        <tr>
+                          <th>Payment Id</th>
+                          <th>User Name</th>
+                          <th>Subscription</th>
+                          <th>Amount</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if(!order[0]){ %>
+                        <tr>
+                          <td colspan="5">No Payment Found</td>
+                        </tr>
+                        <% } else { for(var i=0; i< order.length; i++) { %>
+                        <tr>
+                          <td><%- order[i].order_id %></td>
+                          <td>
+                            <%- order[i].user_id.name ? order[i].user_id.name :
+                            "null" %>
+                          </td>
+                          <td>
+                            <%- order[i].subscription_id ?
+                            order[i].subscription_id.duration : "null" %>
+                          </td>
+                          
+
+                          <td><%- order[i].amount %></td>
+
+                          <td>
+                            <%= convertTimeStampToDate(order[i].created_at) %>
+                          </td>
+                        </tr>
+                        <% } } %>
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include ('partials/footer.ejs') %> 
+
+<%
+function convertTimeStampToDate(date){
+   date = Number(date)
+      var d = new Date(date),
+         month = '' + (d.getMonth() + 1),
+         day = '' + d.getDate(),
+         year = d.getFullYear();
+
+   if (month.length < 2)
+   month = '0' + month;
+   if (day.length < 2)
+   day = '0' + day;
+   var date = new Date();
+   date.toLocaleDateString();
+
+   return [day, month, year].join('-');
+}
+%>
+
+
+<script>
+   $(document).ready(function () {
+    $("#example").DataTable();
+  });
+</script>
+
+

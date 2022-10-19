@@ -1,0 +1,191 @@
+<%- include('partials/header.ejs') %>
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-headers row">
+              <div class="col-12">
+                <div class="university-card-header">
+                  <h4>Add Jobs</h4>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="addform">
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Job Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="job_name"
+                      placeholder="Enter Job Name"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label>Location</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="location"
+                      placeholder="Enter Location"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Designation</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="designation"
+                      placeholder="Enter Designation"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label>Experience Level</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="experience_level"
+                      placeholder="Enter Experience Level"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Last Date to Apply</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="last_dateofapply"
+                      placeholder="Enter Last Date to Apply"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label>About Company</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="about_company"
+                      placeholder="Enter About Company"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group w-50">
+                    <label>Salary</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="salary"
+                      placeholder="Enter Salary"
+                    />
+                  </div>
+                  <div class="form-group w-50">
+                    <label for="">Mode</label>
+                    <select class="form-control" id="mode" name="mode">
+                      <option value="">Select Mode</option>
+                      <option value="paid">Paid</option>
+                      <option value="free">Free</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group add-university-form">
+                      <label for="image" class="form-label">Image</label>
+                      <div class="custom-file">
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="image"
+                          name="image"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Apply Link</label>
+                      <input
+                        type="text"
+                        name="apply_link"
+                        class="form-control"
+                        placeholder="Apply Link"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group">
+                    <label> Description</label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      id="summernote"
+                      name="job_description"
+                      placeholder="Enter Description"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="row text-right">
+                  <div class="col-12">
+                    <button class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<%- include('partials/footer.ejs') %>
+
+<script>
+  var addform = $("#addform");
+
+  addform.on("submit", addslidersubmitHandler);
+
+  function addslidersubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = new FormData(addform[0]);
+    console.log(formData);
+    // // DO POST
+    $.ajax({
+      type: "POST",
+      enctype: "multipart/form-data",
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/admin/job/add",
+      data: formData,
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.replace("/admin/job/list");
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>

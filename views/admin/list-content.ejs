@@ -1,0 +1,818 @@
+<%- include ('partials/header.ejs') %>
+
+<style>
+  .card {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .card-bodys {
+    padding-top: 5px;
+    padding-bottom: 9px;
+  }
+</style>
+
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-10">
+            <div class="university-card-header">
+              <h4>Contents</h4>
+            </div>
+          </div>
+          <div
+            class="row"
+            style="
+              display: flex;
+              justify-content: end;
+              align-items: center;
+              padding: 0px;
+            "
+          >
+            <div
+              class="col-12 col-lg-2"
+              style="
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                text-align: center;
+              "
+            >
+              <div class="university-card-header1">
+                <div class="create-btn">
+                  <a
+                    href="/admin/content/add?id=<%= subject_id %>"
+                    class="add-btn-circle"
+                  >
+                    <i
+                      class="fa fa-plus"
+                      style="margin-right: 0px; margin-top: 0px"
+                    ></i>
+                  </a>
+                  <span>Add Content</span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 col-lg-2"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+              "
+            >
+              <div class="university-card-header1">
+                <div class="create-btn">
+                  <a
+                    class="add-btn-circle"
+                    data-ajax-popup="true"
+                    data-size="md"
+                    data-title="Invite New User"
+                    data-toggle="tooltip"
+                    title=""
+                    data-bs-original-title="Add Quiz"
+                    type="submit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#myModal"
+                  >
+                    <i
+                      class="fa fa-plus"
+                      style="margin-right: 0px; margin-top: 0px"
+                    ></i>
+                  </a>
+                  <span> Add Quiz</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- textbooks -->
+        <div class="row">
+          <div class="col-md-2">
+            <h5 style="font-size: 18px">Textbook</h5>
+            <h1><%= textbooks %></h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <% if(!textbook[0]) { %>
+          <div class="col-12 text-center">
+            <h2>No textbook</h2>
+          </div>
+          <% } else {%> <% textbook.forEach(function(textbook){ %>
+          <div class="card" style="width: 10rem">
+            <img
+              src="/uploads/thumbnail/<%= textbook.thumbnail %>"
+              class="card-img-top img-R"
+              width=""
+              style="border-radius: 12px 12px 0 0"
+              alt="..."
+            />
+            <div class="card-bodys">
+              <div class="float-left ms-3">
+                <span
+                  data-subject="<%= JSON.stringify(textbook) %>"
+                  class="book_details"
+                  style="color: black; font-size: 18px"
+                  ><%= textbook.title %></span
+                >
+              </div>
+              <div class="float-right">
+                <div class="edit-btn-group">
+                  <!-- <i
+                      class="fas fa-edit text-info"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(textbook) %>"
+                    ></i> -->
+
+                  <i
+                    class="fas fa-trash text-danger"
+                    onclick="deletecourse('<%- textbook._id %>')"
+                  >
+                  </i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% }); %> <% } %>
+      </div>
+
+      <!-- PDF -->
+      <div class="row">
+        <div class="col-md-2">
+          <h5 style="font-size: 18px">PDF</h5>
+          <h1><%= pdfs %></h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <% if(!pdf[0]) { %>
+        <div class="col-12 text-center">
+          <h2>No pdf</h2>
+        </div>
+        <% } else {%> <% pdf.forEach(function(pdf){ %>
+        <div class="card" style="width: 10rem">
+          <img
+            src="/uploads/thumbnail/<%= pdf.thumbnail %>"
+            class="card-img-top"
+            width=""
+            style="border-radius: 12px 12px 0 0"
+            alt="..."
+          />
+          <div class="card-bodys">
+            <div class="float-left ms-3">
+              <span
+                data-subject="<%= JSON.stringify(pdf) %>"
+                class="book_details"
+                style="color: black; font-size: 18px"
+                ><%= pdf.title %></span
+              >
+            </div>
+            <div class="float-right">
+              <div class="edit-btn-group">
+                <!-- <i
+                      class="fas fa-edit text-info"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(pdf) %>"
+                    ></i> -->
+
+                <i
+                  class="fas fa-trash text-danger"
+                  onclick="deletecourse('<%- pdf._id %>')"
+                >
+                </i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %> <% } %>
+      </div>
+
+      <!-- PPT -->
+      <div class="row">
+        <div class="col-md-2">
+          <h5 style="font-size: 18px">PPT</h5>
+          <h1><%= ppts %></h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <% if(!ppt[0]) { %>
+        <div class="col-12 text-center">
+          <h2>No ppt</h2>
+        </div>
+        <% } else {%> <% ppt.forEach(function(ppt){ %>
+
+        <div class="card" style="width: 10rem">
+          <img
+            src="/uploads/thumbnail/<%= ppt.thumbnail %>"
+            class="card-img-top"
+            width=""
+            style="border-radius: 12px 12px 0 0"
+            alt="..."
+          />
+          <div class="card-bodys">
+            <div class="float-left ms-3">
+              <span
+                data-subject="<%= JSON.stringify(ppt) %>"
+                class="book_details"
+                style="color: black; font-size: 18px"
+                ><%= ppt.title %></span
+              >
+            </div>
+            <div class="float-right">
+              <div class="edit-btn-group">
+                <!-- <i
+                      class="fas fa-edit text-info"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(ppt) %>"
+                    ></i>
+   -->
+                <i
+                  class="fas fa-trash text-danger"
+                  onclick="deletecourse('<%- ppt._id %>')"
+                >
+                </i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="txt-book-box">
+            <a href="<%= mediaUrl %><%= ppt.basename %>" target="_blank">
+              <img
+                src="/uploads/thumbnail/<%= ppt.thumbnail %>"
+                alt=""
+                class="book-img img-fluid"
+            /></a>
+            <div
+              class="book-details ml-3 mt-2"
+              data-bs-toggle="modal"
+              data-bs-target="#book-details"
+            >
+              <span
+                data-subject="<%= JSON.stringify(ppt) %>"
+                class="book_details"
+                ><%= ppt.title %></span
+              ><br />
+              <!-- <small
+                    ><%= ppt.semester %> Semester | <%= ppt.chapter %>
+                    Chapters</small
+                  > -->
+            </div>
+            <div class="edit-btn-group">
+              <!-- <i
+                    class="fas fa-edit text-info"
+                    id="edit_btn"
+                    data-toggle="modal"
+                    data-model="<%= JSON.stringify(ppt) %>"
+                  ></i> -->
+
+              <i
+                class="fas fa-trash text-danger"
+                onclick="deletecourse('<%- ppt._id %>')"
+              >
+              </i>
+            </div>
+          </div>
+        </div>
+
+        <% }); %> <% } %>
+      </div>
+
+      <!-- Notes -->
+      <div class="row">
+        <div class="col-md-2">
+          <h5 style="font-size: 18px">Notes</h5>
+          <h1><%= notes %></h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <% if(!note[0]) { %>
+        <div class="col-12 text-center">
+          <h2>No note</h2>
+        </div>
+        <% } else {%> <% note.forEach(function(note){ %>
+
+        <div class="card ms-3 mb-4" style="width: 10rem">
+          <img
+            src="/uploads/thumbnail/<%= note.thumbnail %>"
+            class="card-img-top"
+            width=""
+            style="border-radius: 12px 12px 0 0"
+            alt="..."
+          />
+          <div class="card-bodys">
+            <div class="float-left ms-3">
+              <span
+                data-subject="<%= JSON.stringify(note) %>"
+                class="book_details"
+                style="color: black; font-size: 18px"
+                ><%= note.title %></span
+              >
+            </div>
+            <div class="float-right" style="font-size: 18px">
+              <!-- <div class="edit-btn-group"> -->
+              <!-- <i
+                      class="fas fa-edit text-info"
+                      id="edit_btn"
+                      data-toggle="modal"
+                      data-model="<%= JSON.stringify(note) %>"
+                    ></i> -->
+
+              <i
+                class="fas fa-trash text-danger me-2"
+                onclick="deletecourse('<%- note._id %>')"
+              >
+              </i>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="txt-book-box">
+            <a href="<%= mediaUrl %><%= note.basename %>" target="_blank">
+              <img
+                src="/uploads/thumbnail/<%= note.thumbnail %>"
+                alt=""
+                class="book-img img-fluid"
+            /></a>
+            <div
+              class="book-details ml-3 mt-2"
+              data-bs-toggle="modal"
+              data-bs-target="#book-details"
+            >
+              <span
+                data-subject="<%= JSON.stringify(note) %>"
+                class="book_details"
+                ><%= note.title %></span
+              ><br />
+              <!-- <small
+                  ><%= note.semester %> Semester | <%= note.chapter %>
+                  Chapters</small
+                > -->
+            </div>
+            <div class="edit-btn-group">
+              <!-- <i
+                  class="fas fa-edit text-info"
+                  id="edit_btn"
+                  data-toggle="modal"
+                  data-model="<%= JSON.stringify(note) %>"
+                ></i> -->
+
+              <i
+                class="fas fa-trash text-danger"
+                onclick="deletecourse('<%- note._id %>')"
+              >
+              </i>
+            </div>
+          </div>
+        </div>
+
+        <% }); %> <% } %>
+      </div>
+
+      <!-- Quiz -->
+      <div class="row">
+        <div class="col-md-2">
+          <h5 style="font-size: 18px">Quiz</h5>
+          <h1><%= quizs %></h1>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive p-2">
+              <table id="example" class="table table-bordered table-md">
+                <thead>
+                  <tr class="text-center">
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>No. Of Attempts</th>
+                    <th>Questions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% if(!quiz[0]) { %>
+                  <tr>
+                    <td colspan="100%">No Data</td>
+                  </tr>
+                  <% } else {%> <% quiz.forEach(function(quiz){ %>
+                  <tr class="text-center">
+                    <td><%= quiz.name %></td>
+                    <td><%= quiz.duration %></td>
+                    <td><%= quiz.no_of_attempts %></td>
+                    <td>
+                      <a href="/admin/quiz/questions?id=<%= quiz._id %>">
+                        <i
+                          class="btn btn-info btn-md fas fa-question"
+                          data-toggle="tooltip"
+                          title=""
+                          data-bs-original-title="Add Questions"
+                        ></i
+                      ></a>
+
+                      <!-- edit quiz -->
+                      <i
+                        class="btn btn-info btn-md fas fa-edit"
+                        id="edit_btn"
+                        data-toggle="modal"
+                        data-model="<%= JSON.stringify(quiz) %>"
+                      ></i>
+                      <!-- delete quiz -->
+                      <i
+                        class="btn btn-danger btn-md fas fa-trash"
+                        onclick="deletequiz('<%- quiz._id %>')"
+                      ></i>
+                    </td>
+                  </tr>
+
+                  <% }); %> <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="myModal">
+    <!-- modal  -->
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Quiz</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="body">
+          <div class="modal-body">
+            <form id="addform">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="subject_id"
+                      value="<%= subject_id %>"
+                    />
+                    <div class="form-group add-university-form">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        placeholder="Enter Name"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Duration</label>
+                    <input
+                      type="time"
+                      class="form-control"
+                      name="duration"
+                      placeholder="Test Duration"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>Description</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="description"
+                      placeholder="Enter Description"
+                    />
+                  </div>
+                  <div class="form-group add-university-form">
+                    <label>No. Of Attempts</label>
+
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="no_of_attempts"
+                      placeholder="Enter No. Of Attempts"
+                    />
+
+                    <p>
+                      Note : Number of attempts allowed per student. Add 0 for
+                      unlimited attemplts
+                    </p>
+                  </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-12 modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <!-- modal  -->
+  </div>
+
+  <!-- test book details modal  -->
+  <div class="modal fade" id="book-details">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body"></div>
+
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Subject modal  -->
+  <div class="modal fade" id="edit">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4>Edit Quiz</h4>
+
+          <h4>Edit Subject</h4>
+
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <form id="editform">
+              <input type="hidden" id="editid2" name="editid2" />
+
+              <input type="hidden" id="editid" name="editid" />
+
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="form-group add-university-form">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="name"
+                          id="name"
+                          placeholder="Enter name"
+                        />
+
+                        <!-- <label>Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="edit_title"
+                          id="edit_title"
+                          placeholder="Enter Title"
+                        /> -->
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group add-university-form">
+                          <label>Description</label>
+                          <textarea
+                            class="form-control"
+                            rows="3"
+                            id="edit_description2"
+                            name="edit_description2"
+                            id="edit_description"
+                            name="edit_description"
+                            placeholder="Enter Description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-5">
+                    <div class="col-12 text-right">
+                      <button type="submit" class="btn btn-primary btn-lg">
+                        Update
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+
+<script>
+  $(document).on("click", ".book_details", function (e) {
+    const dataSubject = $(this).data("subject");
+    let dynamicHtml = `
+  <div class="row">
+    <h4 class="text-center mb-4" style="color: #09a8f3">Textbook</h4>
+  </div>
+  <div class="row">
+    <div class="txt-book-box justify-content-start">
+      <img
+        src="/uploads/thumbnail/${dataSubject.thumbnail}"
+        alt=""
+        class="book-img img-fluid"
+        data-bs-toggle="modal"
+        data-bs-target="#book-details"
+      />
+      <div class="book-details ml-3">
+        <span>${dataSubject.title}</span><br />
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <h4>Description</h4>
+    <p>${dataSubject.description}</p>
+  </div>
+      `;
+    // console.log(dynamicHtml);
+    $("#book-details").find(".modal-body").html(dynamicHtml);
+  });
+</script>
+
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid2").val(data._id);
+    $("#name").val(data.name);
+    $("#edit_description2").val(data.description);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/content/edit/quiz",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/content/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>
+
+<script>
+  function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+      indexed_array[n["name"]] = n["value"];
+    });
+
+    return indexed_array;
+  }
+
+  var addtestform = $("#addform");
+
+  addtestform.on("submit", addtestsubmitHandler);
+
+  function addtestsubmitHandler(e) {
+    e.preventDefault();
+
+    // PREPARE FORM DATA
+    var formData = getFormData($("#addform"));
+    console.log(formData);
+
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/admin/quiz/add",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+
+<script>
+  function deletequiz(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/admin/content/delete/quiz",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>

@@ -1,0 +1,424 @@
+<%- include ('partials/header.ejs') %>
+<!-- Main content start -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="card">
+        <div class="card-headers row">
+          <div class="col-12 col-lg-10">
+            <div class="university-card-header">
+              <h4>Subject</h4>
+            </div>
+          </div>
+          <div class="col-12 col-lg-2">
+            <div class="university-card-header1">
+              <!-- <div class="create-btn">
+                <a href="/manager/subject/add" class="add-btn-circle">
+                  <i
+                    class="fa fa-plus"
+                    style="margin-right: 0px; margin-top: 0px"
+                  ></i>
+                </a>
+                <span> Create New</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-2">
+              <h5>Total Subject</h5>
+              <h1><%= subjects %></h1>
+            </div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                id="mySearch"
+                placeholder="Search"
+                style="padding: 8px"
+              />
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="
+                  color: #09a8f3;
+                  position: absolute;
+                  right: 40px;
+                  font-size: 15px;
+                  top: 10px;
+                "
+              ></i>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <% if(!subject[0]) { %>
+            <div class="col-12 text-center">
+              <h2>No subject</h2>
+            </div>
+            <% } else {%> <% subject.forEach(function(subject){ %>
+            <div class="col-md-4 mb-4">
+              <article
+                class="article"
+                style="border-radius: 10px; overflow: hidden"
+              >
+                <div
+                  class="article-header"
+                  style="position: relative; height: 230px !important"
+                >
+                  <div
+                    class="article-image"
+                    style="
+                      background-image: url(/uploads/subject/<%= subject.image %>);
+                    "
+                  >
+                    <div
+                      class="d-flex mt-4"
+                      style="position: absolute; right: 0; top: -23px"
+                    >
+                      <div class="feed-delete">
+                        <i
+                          class="fas fa-edit text-info"
+                          id="edit_btn"
+                          data-toggle="modal"
+                          data-model="<%= JSON.stringify(subject) %>"
+                        ></i>
+                      </div>
+
+                      <div class="feed-delete" style="margin-top: 38px">
+                        <i
+                          class="fas fa-trash"
+                          onclick="deletecourse('<%- subject._id %>')"
+                        >
+                        </i>
+                      </div>
+                    </div>
+                    <div
+                      class="subject-name"
+                      data-bs-toggle="modal"
+                      data-bs-target="#subject-modal"
+                    >
+                      <h5
+                        style="color: #000; font-weight: bolder"
+                        data-subject="<%= JSON.stringify(subject) %>"
+                        class="subject_details"
+                      >
+                        <%= subject.title %>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <% }); %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- details modal  -->
+  <div class="modal fade" id="subject-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body"></div>
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Subject modal  -->
+<div class="modal fade" id="edit">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4>Edit Subject</h4>
+        <button type="button" class="btn-close" data-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row">
+          <form id="editform">
+            <input type="hidden" id="editid" name="editid" />
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="form-group add-university-form">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="edit_title"
+                        id="edit_title"
+                        placeholder="Enter Title"
+                      />
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group add-university-form w-50">
+                        <label>Course</label>
+                        <select
+                          class="form-control show-tick ms select2"
+                          data-placeholder="Select"
+                          name="edit_course_id"
+                          id="edit_course_id"
+                        >
+                          <option value="" disabled selected>
+                            Select Course
+                          </option>
+                          <% course_id.forEach(function(course_id){%>
+                          <option value="<%= course_id._id %>">
+                            <%= course_id.course_name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                      <div class="form-group add-university-form w-50">
+                        <label>University</label>
+                        <select
+                          class="form-control show-tick ms select2"
+                          data-placeholder="Select"
+                          name="edit_university_id"
+                          id="edit_university_id"
+                        >
+                          <option value="" disabled selected>
+                            Select University
+                          </option>
+                          <% university_id.forEach(function(university_id){%>
+                          <option value="<%= university_id._id %>">
+                            <%= university_id.name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group add-university-form w-50">
+                        <label>College</label>
+                        <select
+                          class="form-control show-tick ms select2"
+                          data-placeholder="Select"
+                          name="edit_college_id"
+                          id="edit_college_id"
+                        >
+                          <option value="" disabled selected>
+                            Select College
+                          </option>
+                          <% college_id.forEach(function(college_id){%>
+                          <option value="<%= college_id._id %>">
+                            <%= college_id.name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                      <div class="form-group add-university-form w-50">
+                        <label>Branch</label>
+                        <select
+                          class="form-control show-tick ms select2"
+                          data-placeholder="Select"
+                          name="edit_branch_id"
+                          id="edit_branch_id"
+                        >
+                          <option value="" disabled selected>
+                            Select Branch
+                          </option>
+                          <% branch_id.forEach(function(branch_id){%>
+                          <option value="<%= branch_id._id %>">
+                            <%= branch_id.branch_name %>
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                      <div class="row">
+                        <div class="form-group add-university-form w-50">
+                          <label>year</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="edit_year"
+                            id="edit_year"
+                            placeholder="Enter year"
+                          />
+                        </div>
+                        <div class="form-group add-university-form w-50">
+                          <label>Semester</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="edit_semester"
+                            id="edit_semester"
+                            placeholder="Enter Semester"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group add-university-form">
+                        <label>Description</label>
+                        <textarea
+                          class="form-control"
+                          rows="3"
+                          id="edit_description"
+                          name="edit_description"
+                          placeholder="Enter Description"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal footer -->
+  </div>
+</div>
+
+<!-- Main Content -->
+
+<%- include ('partials/footer.ejs') %>
+<script>
+  $(document).on("click", ".subject_details", function (e) {
+    const dataSubject = $(this).data("subject");
+    let dynamicHtml = `
+      <div class="row text-center">
+            <h4>${dataSubject.title}</h4>
+          </div>
+          <div
+            class="row"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <img
+              src="/uploads/subject/${dataSubject.image}"
+              alt=""
+              class="img-fluid"
+              style="width: 200px"
+            />
+          </div>
+
+          <div class="row mt-5 mb-5">
+            <div class="col-12">
+              <div class="sub-details">
+                <div
+                  class="text-center"
+                  style="border-right: 2px solid black; width: calc(100% / 2)"
+                >
+                  <span>${dataSubject.year}</span><br />
+                  <small>Year</small>
+                </div>
+                <div class="text-center" style="width: calc(100% / 2)">
+                  <span>${dataSubject.semester}</span><br />
+                  <small>Semester</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <h4>Description</h4>
+            <p>${dataSubject.description}</p>
+          </div>
+    `;
+    // console.log(dynamicHtml);
+    $("#subject-modal").find(".modal-body").html(dynamicHtml);
+  });
+</script>
+<script>
+  $(document).on("click", "#edit_btn", function (e) {
+    let getData = $(e.target).attr("data-model");
+    let finalData = JSON.parse(getData);
+    $("#edit").modal("show");
+    var data = finalData;
+    $("#editid").val(data._id);
+    $("#edit_title").val(data.title);
+    $("#edit_course_id").val(data.course_id._id);
+    $("#edit_university_id").val(data.university_id._id);
+    $("#edit_college_id").val(data.college_id._id);
+    $("#edit_branch_id").val(data.branch_id._id);
+    $("#edit_year").val(data.year);
+    $("#edit_semester").val(data.semester);
+    $("#edit_description").val(data.description);
+  });
+
+  var editform = $("#editform");
+  editform.on("submit", editSubmitHandler);
+
+  function editSubmitHandler(e) {
+    e.preventDefault();
+
+    var formData = getFormData(editform);
+    console.log(formData);
+
+    // DO POST
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "/manager/subject/edit",
+      data: JSON.stringify(formData),
+    })
+      .done((res) => {
+        if (res.error == true) {
+          renderToast({ message: res.message, icon: "error" });
+        } else {
+          renderToast({ message: res.message, icon: "success" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+      });
+  }
+</script>
+<script>
+  function deletecourse(id) {
+    if (confirm("Do you really want to delete this record")) {
+      // DO POST
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/manager/subject/delete",
+        data: JSON.stringify({
+          id: id,
+        }),
+      })
+        .done((res) => {
+          if (res.error == true) {
+            renderToast({ message: res.message, icon: "error" });
+          } else {
+            renderToast({ message: res.message, icon: "success" });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          console.log(xhr.responseText);
+        });
+    }
+  }
+</script>
