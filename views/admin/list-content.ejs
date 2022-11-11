@@ -246,45 +246,6 @@
           </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-          <div class="txt-book-box">
-            <a href="<%= mediaUrl %><%= ppt.basename %>" target="_blank">
-              <img
-                src="/uploads/thumbnail/<%= ppt.thumbnail %>"
-                alt=""
-                class="book-img img-fluid"
-            /></a>
-            <div
-              class="book-details ml-3 mt-2"
-              data-bs-toggle="modal"
-              data-bs-target="#book-details"
-            >
-              <span
-                data-subject="<%= JSON.stringify(ppt) %>"
-                class="book_details"
-                ><%= ppt.title %></span
-              ><br />
-              <!-- <small
-                    ><%= ppt.semester %> Semester | <%= ppt.chapter %>
-                    Chapters</small
-                  > -->
-            </div>
-            <div class="edit-btn-group">
-              <!-- <i
-                    class="fas fa-edit text-info"
-                    id="edit_btn"
-                    data-toggle="modal"
-                    data-model="<%= JSON.stringify(ppt) %>"
-                  ></i> -->
-
-              <i
-                class="fas fa-trash text-danger"
-                onclick="deletecourse('<%- ppt._id %>')"
-              >
-              </i>
-            </div>
-          </div>
-        </div>
 
         <% }); %> <% } %>
       </div>
@@ -338,47 +299,6 @@
             </div>
           </div>
         </div>
-
-        <div class="col-md-3 mb-3">
-          <div class="txt-book-box">
-            <a href="<%= mediaUrl %><%= note.basename %>" target="_blank">
-              <img
-                src="/uploads/thumbnail/<%= note.thumbnail %>"
-                alt=""
-                class="book-img img-fluid"
-            /></a>
-            <div
-              class="book-details ml-3 mt-2"
-              data-bs-toggle="modal"
-              data-bs-target="#book-details"
-            >
-              <span
-                data-subject="<%= JSON.stringify(note) %>"
-                class="book_details"
-                ><%= note.title %></span
-              ><br />
-              <!-- <small
-                  ><%= note.semester %> Semester | <%= note.chapter %>
-                  Chapters</small
-                > -->
-            </div>
-            <div class="edit-btn-group">
-              <!-- <i
-                  class="fas fa-edit text-info"
-                  id="edit_btn"
-                  data-toggle="modal"
-                  data-model="<%= JSON.stringify(note) %>"
-                ></i> -->
-
-              <i
-                class="fas fa-trash text-danger"
-                onclick="deletecourse('<%- note._id %>')"
-              >
-              </i>
-            </div>
-          </div>
-        </div>
-
         <% }); %> <% } %>
       </div>
 
@@ -573,9 +493,6 @@
           <div class="row">
             <form id="editform">
               <input type="hidden" id="editid2" name="editid2" />
-
-              <input type="hidden" id="editid" name="editid" />
-
               <div class="col-12">
                 <div class="row">
                   <div class="col-12">

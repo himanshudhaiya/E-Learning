@@ -38,7 +38,7 @@ class SubscriptionController {
       if (req.body.course_id == "") {
         return res.send("Course is required");
       }
-      console.log(req.body);
+      // console.log(req.body);
       const subscription = Subscription({
         name: req.body.name,
         type: req.body.type,
@@ -72,9 +72,6 @@ class SubscriptionController {
       }
       if (req.body.course_id == "") {
         return res.send("Course is required");
-      }
-      if (req.body.amount == "") {
-        return res.send("Amount is required");
       }
 
       const subscription = await Subscription.findOne({

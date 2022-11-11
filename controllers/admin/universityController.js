@@ -78,15 +78,12 @@ class UniversityController {
         _id: req.body.editid,
       });
 
-      await University.findOneAndUpdate(
-        {
-          _id: req.body.editid,
-        },
-        {
-          name: req.body.edit_name,
-          course_id: req.body.edit_course_id,
-        }
-      );
+      await University.findOneAndUpdate({
+        _id: req.body.editid,
+      }, {
+        name: req.body.edit_name,
+        course_id: req.body.edit_course_id,
+      });
       return res.send({
         error: false,
         message: "University updated successfully",

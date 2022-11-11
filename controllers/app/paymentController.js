@@ -156,7 +156,7 @@ class PaymentController {
 
       const payment = await instance.orders.fetch(data.order_id);
 
-      console.log(payment);
+      // console.log(payment);
 
       if (payment.amount_due == 0) {
         return res.status(400).send({
@@ -164,23 +164,17 @@ class PaymentController {
           message: "No Payment due",
         });
       } else {
-        const order = await Order.findOneAndUpdate(
-          {
-            order_id: data.order_id,
-          },
-          {
-            payment_data: data.payment_data,
-          }
-        );
+        const order = await Order.findOneAndUpdate({
+          order_id: data.order_id,
+        }, {
+          payment_data: data.payment_data,
+        });
 
-        await Appointment.findOneAndUpdate(
-          {
-            order,
-          },
-          {
-            status: 1,
-          }
-        );
+        await Appointment.findOneAndUpdate({
+          order,
+        }, {
+          status: 1,
+        });
       }
 
       return res.status(200).send({
